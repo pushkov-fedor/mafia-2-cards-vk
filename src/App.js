@@ -28,6 +28,7 @@ import "./App.css";
 import { mainPanels } from "./routes";
 import MainHomePage from "./pages/MainHome.page";
 import MainCreateGamePage from "./pages/MainCreateGame.page";
+import MainJoinGamePage from "./pages/MainJoinGame.page";
 
 const App = () => {
   const [activeView, setActiveView] = useState("main");
@@ -46,6 +47,12 @@ const App = () => {
             <MainCreateGamePage
               setActivePanel={setActivePanel}
               panelHeaderMessage="Создать игру"
+            />
+          </Panel>
+          <Panel id={mainPanels.joinGame}>
+            <MainJoinGamePage
+              setActivePanel={setActivePanel}
+              panelHeaderMessage="Присоединиться к игре"
             />
           </Panel>
         </View>

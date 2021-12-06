@@ -17,7 +17,11 @@ export default function MainHomePage({ setActivePanel, panelHeaderMessage }) {
         </Button>
       </Div>
       <Div>
-        <Button size="l" stretched>
+        <Button
+          size="l"
+          stretched
+          onClick={() => setActivePanel(mainPanels.joinGame)}
+        >
           Присоединиться
         </Button>
       </Div>
