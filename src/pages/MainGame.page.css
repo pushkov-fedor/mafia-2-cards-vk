@@ -1,0 +1,9 @@
+.game-panel__card-type {
+  text-align: center;
+}
+.game-panel__card-type:first-of-type {
+  margin-bottom: 5px;
+}
+.game-panel-action-btn-container {
+  margin-top: 15px;
+}

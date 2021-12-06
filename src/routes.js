@@ -3,4 +3,5 @@ export const mainPanels = {
   createGame: "CreateGame",
   joinGame: "JoinGame",
   waitGame: "WaitGame",
+  game: "Game",
 };
