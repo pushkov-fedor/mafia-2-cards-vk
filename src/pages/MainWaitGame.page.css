@@ -1,0 +1,10 @@
+.wait-game-panel__room-code {
+  text-align: center;
+  margin-bottom: 10px;
+}
+.wait-game-panel__room-players {
+  text-align: center;
+}
+.wait-game-panel__separator {
+  margin: 12px 0;
+}

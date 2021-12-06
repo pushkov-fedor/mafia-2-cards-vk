@@ -29,10 +29,11 @@ import { mainPanels } from "./routes";
 import MainHomePage from "./pages/MainHome.page";
 import MainCreateGamePage from "./pages/MainCreateGame.page";
 import MainJoinGamePage from "./pages/MainJoinGame.page";
+import MainWaitGamePage from "./pages/MainWaitGame.page";
 
 const App = () => {
   const [activeView, setActiveView] = useState("main");
-  const [activePanel, setActivePanel] = useState(mainPanels.home);
+  const [activePanel, setActivePanel] = useState(mainPanels.waitGame);
   return (
     <AppRoot>
       <Root activeView={activeView}>
@@ -53,6 +54,12 @@ const App = () => {
             <MainJoinGamePage
               setActivePanel={setActivePanel}
               panelHeaderMessage="Присоединиться к игре"
+            />
+          </Panel>
+          <Panel id={mainPanels.waitGame}>
+            <MainWaitGamePage
+              setActivePanel={setActivePanel}
+              panelHeaderMessage="Ждем всех игроков"
             />
           </Panel>
         </View>
