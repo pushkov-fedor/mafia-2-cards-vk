@@ -6,14 +6,14 @@ import { mainPanels } from "../routes";
 export default function MainHomePage({ setActivePanel, panelHeaderMessage }) {
   return (
     <>
-      <PanelHeader>Мафия</PanelHeader>
+      <PanelHeader>{panelHeaderMessage}</PanelHeader>
       <Div>
         <Button
           size="l"
           stretched
           onClick={() => setActivePanel(mainPanels.createGame)}
         >
-          {panelHeaderMessage}
+          Создать игру
         </Button>
       </Div>
       <Div>

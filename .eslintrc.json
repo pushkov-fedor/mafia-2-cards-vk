@@ -20,6 +20,7 @@
     "react/require-default-props": "off",
     "no-unused-vars": "warn",
     "no-prototype-builtins": "off",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "no-nested-ternary": "off"
   }
 }
