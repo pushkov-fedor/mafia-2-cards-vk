@@ -14,3 +14,15 @@ export const GamePhase = {
   CardRevealAfterCourt: 4,
   BeforeNight: 5,
 };
+
+export const CardType = {
+  Mafia: 0,
+  Police: 1,
+  Civil: 2,
+};
+
+export const HealthStatus = {
+  Alive: 0,
+  Injured: 1,
+  Dead: 2,
+};

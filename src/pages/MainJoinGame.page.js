@@ -10,6 +10,7 @@ import {
 import React, { useState } from "react";
 import { GameApi } from "../api";
 import { mainPanels } from "../routes";
+import { GameStatus } from "../constants";
 
 export default function MainJoinGamePage({
   setActivePanel,
@@ -36,6 +37,10 @@ export default function MainJoinGamePage({
             setGame(responsee.data)
           );
         }, 2000);
+        if (response.data.game.gameStatus === GameStatus.Started) {
+          setActivePanel(mainPanels.game);
+          return;
+        }
         setActivePanel(mainPanels.waitGame);
       }
     );

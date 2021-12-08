@@ -85,6 +85,8 @@ const App = () => {
             <MainGamePage
               setActivePanel={setActivePanel}
               panelHeaderMessage="Игра"
+              game={game}
+              playerId={playerId}
             />
           </Panel>
         </View>

@@ -15,6 +15,7 @@ import {
   PanelHeader,
   PanelHeaderBack,
   PanelHeaderButton,
+  ScreenSpinner,
   SimpleCell,
   Snackbar,
   SplitCol,
@@ -24,22 +25,80 @@ import {
   usePlatform,
   VKCOM,
 } from "@vkontakte/vkui";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { GameApi } from "../api";
+import { CardType, GamePhase, HealthStatus } from "../constants";
 import { mainPanels } from "../routes";
 import "./MainGame.page.css";
 
 const Modals = {
-  MafiaKill: "MafiaKill",
+  MafiaTurn: "MafiaTurn",
 };
 
-export default function MainGamePage({ setActivePanel, panelHeaderMessage }) {
+const getCardName = (cardType) => {
+  switch (cardType) {
+    case CardType.Mafia:
+      return "Мафия";
+    case CardType.Police:
+      return "Комиссар";
+    case CardType.Civil:
+    default:
+      return "Мирный";
+  }
+};
+
+const hasAliveMafia = (player) =>
+  player.cards.some(
+    (card) => card.type === CardType.Mafia && card.status !== HealthStatus.Dead
+  );
+
+const hasAlivePolice = (player) =>
+  player.cards.some(
+    (card) => card.type === CardType.Police && card.status !== HealthStatus.Dead
+  );
+
+const getAlivePlayers = (players) =>
+  players.filter((player) => player.status !== HealthStatus.Dead);
+
+const getPlayersExcludeByName = (players, playerName) =>
+  players.filter((player) => player.name !== playerName);
+
+const getCheckedPlayer = (players) => players.find((player) => player.checked);
+
+export default function MainGamePage({
+  setActivePanel,
+  panelHeaderMessage,
+  game,
+  playerId,
+}) {
   const [activeModal, setActiveModal] = useState(null);
   const [snackbar, setSnackbar] = useState(null);
   const [showCards, setShowCards] = useState(true);
-  const [players, setPlayers] = useState([
-    { name: "Артур Стамбульцян", checked: false },
-    { name: "Игорь Федоров", checked: false },
-  ]);
+  const [players, setPlayers] = useState(
+    game.players.map((player) => ({ ...player, checked: false }))
+  );
+  const [hasVoted, setHasVoted] = useState(false);
+  const [spinner, setSpinner] = useState(null);
+
+  const player = game.players.find((player) => player.id === playerId);
+  useEffect(() => {
+    switch (game.gamePhase) {
+      case GamePhase.MafiaTurn:
+        if (hasAliveMafia(player)) {
+          setActiveModal(Modals.MafiaTurn);
+        } else {
+          setSpinner(<ScreenSpinner />);
+        }
+        break;
+      default:
+    }
+  }, [game.gamePhase]);
+
+  const onStartNight = () => {
+    GameApi.startNight(game.id, player.name).then(() => {
+      setHasVoted(true);
+    });
+  };
 
   const onCheck = (index, value) => {
     const oldValue = players[index].checked;
@@ -49,8 +108,8 @@ export default function MainGamePage({ setActivePanel, panelHeaderMessage }) {
     }
     setPlayers(newPlayers);
   };
-
   const isSomeoneChecked = () => players.some((player) => player.checked);
+
   const onModalClose = () => {
     setSnackbar(
       <Snackbar duration="2000" onClose={() => setSnackbar(null)}>
@@ -59,12 +118,18 @@ export default function MainGamePage({ setActivePanel, panelHeaderMessage }) {
     );
   };
   const onKill = () => {
-    setActiveModal(null);
+    const checkedPlayer = getCheckedPlayer(players);
+    GameApi.mafiaKill(game.id, player.name, checkedPlayer.name).then(
+      (response) => {
+        console.log(response);
+        setActiveModal(null);
+      }
+    );
   };
 
   const modal = (
     <ModalRoot activeModal={activeModal}>
-      <ModalPage id={Modals.MafiaKill} onClose={() => onModalClose()}>
+      <ModalPage id={Modals.MafiaTurn} onClose={() => onModalClose()}>
         <Group>
           <Div>
             <Title level="2" weight="bold">
@@ -73,19 +138,21 @@ export default function MainGamePage({ setActivePanel, panelHeaderMessage }) {
           </Div>
         </Group>
         <Group>
-          {players.map((player, index) => (
-            <Cell
-              key={player.name}
-              mode="selectable"
-              checked={player.checked}
-              before={<Avatar />}
-              onChange={(e) => {
-                onCheck(index, e.currentTarget.checked);
-              }}
-            >
-              {player.name}
-            </Cell>
-          ))}
+          {getPlayersExcludeByName(getAlivePlayers(players), player.name).map(
+            (player, index) => (
+              <Cell
+                key={player.name}
+                mode="selectable"
+                checked={player.checked}
+                before={<Avatar />}
+                onChange={(e) => {
+                  onCheck(index, e.currentTarget.checked);
+                }}
+              >
+                {player.name}
+              </Cell>
+            )
+          )}
         </Group>
         <Group>
           <Div>
@@ -103,6 +170,7 @@ export default function MainGamePage({ setActivePanel, panelHeaderMessage }) {
       </ModalPage>
     </ModalRoot>
   );
+  console.log(game);
   return (
     <>
       <PanelHeader
@@ -112,16 +180,20 @@ export default function MainGamePage({ setActivePanel, panelHeaderMessage }) {
       >
         {panelHeaderMessage}
       </PanelHeader>
-      <SplitLayout modal={modal}>
+      <SplitLayout modal={modal} popout={spinner}>
         <SplitCol>
           <Group>
             <Div>
-              <Title level="1" weight="bold" className="game-panel__card-type">
-                {showCards ? "Мафия" : "Скрыты"}
-              </Title>
-              <Title level="1" weight="bold" className="game-panel__card-type">
-                {showCards ? "Мирный" : "Скрыты"}
-              </Title>
+              {player.cards.map((card) => (
+                <Title
+                  level="1"
+                  weight="bold"
+                  className="game-panel__card-type"
+                  key={card.id}
+                >
+                  {showCards ? getCardName(card.type) : "Скрыты"}
+                </Title>
+              ))}
             </Div>
           </Group>
           <Group>
@@ -145,9 +217,12 @@ export default function MainGamePage({ setActivePanel, panelHeaderMessage }) {
             <Button
               size="l"
               stretched
-              onClick={() => setActiveModal(Modals.MafiaKill)}
+              onClick={() => onStartNight()}
+              disabled={hasVoted}
             >
-              Начать ночь
+              {game.votingPull.length === 0
+                ? "Начать ночь"
+                : `Начать ночь (${game.votingPull.length})`}
             </Button>
           </Div>
           {snackbar}

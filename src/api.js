@@ -26,4 +26,15 @@ export const GameApi = {
     axios.post(`${BaseUrl}/game2/start`, {
       gameId,
     }),
+  startNight: (gameId, playerName) =>
+    axios.post(`${BaseUrl}/game2/startNight`, {
+      gameId,
+      playerName,
+    }),
+  mafiaKill: (gameId, playerName, playerVoteValue) =>
+    axios.post(`${BaseUrl}/game2/mafiaKill`, {
+      gameId,
+      playerName,
+      playerVoteValue,
+    }),
 };
