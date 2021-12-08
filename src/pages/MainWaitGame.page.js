@@ -18,7 +18,9 @@ import "./MainWaitGame.page.css";
 export default function MainWaitGamePage({
   setActivePanel,
   panelHeaderMessage,
+  game,
 }) {
+  console.log(game);
   return (
     <>
       <PanelHeader
@@ -31,21 +33,22 @@ export default function MainWaitGamePage({
       <Group>
         <Div>
           <Title level="1" weight="bold" className="wait-game-panel__room-code">
-            Код игры: H2TM22
+            Код игры: {game.id}
           </Title>
           <Title
             level="2"
             weight="regular"
             className="wait-game-panel__room-players"
           >
-            Игроков: 5/6
+            Игроков: {game.players.length}/{game.playersNumber}
           </Title>
         </Div>
       </Group>
       <Group header={<Header>Игроки</Header>}>
         <Div>
-          <SimpleCell before={<Avatar />}>Артур Стамбульцян</SimpleCell>
-          <SimpleCell before={<Avatar />}>Игорь Федоров</SimpleCell>
+          {game.players.map((player) => (
+            <SimpleCell before={<Avatar />}>{player.name}</SimpleCell>
+          ))}
         </Div>
       </Group>
       <Div>

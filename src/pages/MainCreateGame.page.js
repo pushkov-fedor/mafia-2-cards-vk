@@ -11,9 +11,12 @@ import {
   PanelHeaderBack,
 } from "@vkontakte/vkui";
 import { mainPanels } from "../routes";
+import { GameApi } from "../api";
 
 export default function MainCreateGamePage({
   setActivePanel,
+  setGame,
+  setPlayerId,
   panelHeaderMessage,
 }) {
   const [nameControlValue, setNameControlValue] = useState("");
@@ -29,6 +32,18 @@ export default function MainCreateGamePage({
   const touchControl = (controlName) => {
     setControlsTouchedStatus({ ...controlsTouchedStatus, [controlName]: true });
   };
+
+  const onCreateGame = () =>
+    GameApi.createGame(
+      nameControlValue,
+      numberOfPlayersControlValue,
+      numberOfMafiaControlValue,
+      isAddPolice ? 1 : 0
+    ).then((response) => {
+      setGame(response.data.game);
+      setPlayerId(response.data.playerId);
+      setActivePanel(mainPanels.waitGame);
+    });
 
   return (
     <>
@@ -139,6 +154,7 @@ export default function MainCreateGamePage({
                 !numberOfPlayersControlValue ||
                 !numberOfMafiaControlValue
               }
+              onClick={onCreateGame}
             >
               Создать
             </Button>

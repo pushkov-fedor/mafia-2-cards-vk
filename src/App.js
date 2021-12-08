@@ -31,10 +31,15 @@ import MainCreateGamePage from "./pages/MainCreateGame.page";
 import MainJoinGamePage from "./pages/MainJoinGame.page";
 import MainWaitGamePage from "./pages/MainWaitGame.page";
 import MainGamePage from "./pages/MainGame.page";
+import { GameApi } from "./api";
 
 const App = () => {
   const [activeView, setActiveView] = useState("main");
-  const [activePanel, setActivePanel] = useState(mainPanels.game);
+  const [activePanel, setActivePanel] = useState(mainPanels.home);
+
+  const [game, setGame] = useState(null);
+  const [playerId, setPlayerId] = useState(null);
+
   return (
     <AppRoot>
       <Root activeView={activeView}>
@@ -48,6 +53,8 @@ const App = () => {
           <Panel id={mainPanels.createGame} className="create-game-panel">
             <MainCreateGamePage
               setActivePanel={setActivePanel}
+              setGame={setGame}
+              setPlayerId={setPlayerId}
               panelHeaderMessage="Создать игру"
             />
           </Panel>
@@ -61,6 +68,7 @@ const App = () => {
             <MainWaitGamePage
               setActivePanel={setActivePanel}
               panelHeaderMessage="Ждем всех игроков"
+              game={game}
             />
           </Panel>
           <Panel id={mainPanels.game}>

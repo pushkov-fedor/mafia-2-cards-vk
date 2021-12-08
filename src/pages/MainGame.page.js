@@ -33,7 +33,6 @@ const Modals = {
 };
 
 export default function MainGamePage({ setActivePanel, panelHeaderMessage }) {
-  const platform = usePlatform();
   const [activeModal, setActiveModal] = useState(null);
   const [snackbar, setSnackbar] = useState(null);
   const [showCards, setShowCards] = useState(true);
