@@ -21,6 +21,7 @@
     "no-unused-vars": "warn",
     "no-prototype-builtins": "off",
     "import/prefer-default-export": "off",
-    "no-nested-ternary": "off"
+    "no-nested-ternary": "off",
+    "no-shadow": "off"
   }
 }

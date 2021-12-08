@@ -42,6 +42,11 @@ export default function MainCreateGamePage({
     ).then((response) => {
       setGame(response.data.game);
       setPlayerId(response.data.playerId);
+      setInterval(() => {
+        GameApi.getGame(response.data.game.id).then((responsee) =>
+          setGame(responsee.data)
+        );
+      }, 2000);
       setActivePanel(mainPanels.waitGame);
     });
 

@@ -16,4 +16,14 @@ export const GameApi = {
       playersNumber,
       cardsPerPlayer,
     }),
+  joinGame: (playerName, gameId) =>
+    axios.post(`${BaseUrl}/game2/join`, {
+      playerName,
+      gameId,
+    }),
+  getGame: (gameId) => axios.get(`${BaseUrl}/game2/get/${gameId}`),
+  starGame: (gameId) =>
+    axios.post(`${BaseUrl}/game2/start`, {
+      gameId,
+    }),
 };

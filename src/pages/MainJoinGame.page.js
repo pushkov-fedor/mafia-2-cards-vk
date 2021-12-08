@@ -8,10 +8,13 @@ import {
   PanelHeaderBack,
 } from "@vkontakte/vkui";
 import React, { useState } from "react";
+import { GameApi } from "../api";
 import { mainPanels } from "../routes";
 
 export default function MainJoinGamePage({
   setActivePanel,
+  setGame,
+  setPlayerId,
   panelHeaderMessage,
 }) {
   const [roomCodeControlValue, setRoomCodeControlValue] = useState("");
@@ -22,6 +25,20 @@ export default function MainJoinGamePage({
   });
   const touchControl = (controlName) => {
     setControlsTouchedStatus({ ...controlsTouchedStatus, [controlName]: true });
+  };
+  const onJoin = () => {
+    GameApi.joinGame(nameControlValue, roomCodeControlValue).then(
+      (response) => {
+        setGame(response.data.game);
+        setPlayerId(response.data.playerId);
+        setInterval(() => {
+          GameApi.getGame(response.data.game.id).then((responsee) =>
+            setGame(responsee.data)
+          );
+        }, 2000);
+        setActivePanel(mainPanels.waitGame);
+      }
+    );
   };
   return (
     <>
@@ -97,6 +114,7 @@ export default function MainJoinGamePage({
               stretched
               size="l"
               disabled={!roomCodeControlValue || !nameControlValue}
+              onClick={onJoin}
             >
               Присоединиться
             </Button>

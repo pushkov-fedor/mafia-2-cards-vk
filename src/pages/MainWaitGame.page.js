@@ -14,13 +14,20 @@ import {
 } from "@vkontakte/vkui";
 import { mainPanels } from "../routes";
 import "./MainWaitGame.page.css";
+import { GameApi } from "../api";
 
 export default function MainWaitGamePage({
   setActivePanel,
   panelHeaderMessage,
   game,
+  playerId,
 }) {
-  console.log(game);
+  const player = game.players.find((player) => player.id === playerId);
+  const onStartGame = () => {
+    GameApi.starGame(game.id).then((response) => {
+      setActivePanel(mainPanels.game);
+    });
+  };
   return (
     <>
       <PanelHeader
@@ -47,12 +54,24 @@ export default function MainWaitGamePage({
       <Group header={<Header>Игроки</Header>}>
         <Div>
           {game.players.map((player) => (
-            <SimpleCell before={<Avatar />}>{player.name}</SimpleCell>
+            <SimpleCell before={<Avatar />} key={player.id}>
+              {player.name}
+            </SimpleCell>
           ))}
         </Div>
       </Group>
       <Div>
-        <Button mode="commerce" size="l" stretched>
+        <Button
+          mode="commerce"
+          size="l"
+          stretched
+          disabled={
+            !(
+              game.players.length === game.playersNumber && player.isGameCreator
+            )
+          }
+          onClick={onStartGame}
+        >
           Начать игру
         </Button>
       </Div>
