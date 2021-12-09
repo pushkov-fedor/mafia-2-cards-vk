@@ -19,11 +19,10 @@ export default function MainCreateGamePage({
   setPlayerId,
   panelHeaderMessage,
 }) {
-  const [nameControlValue, setNameControlValue] = useState("");
-  const [numberOfPlayersControlValue, setNumberOfPlayersControlValue] =
-    useState(6);
-  const [numberOfMafiaControlValue, setNumberOfMafiaControlValue] = useState(1);
-  const [isAddPolice, setIsAddPolice] = useState(false);
+  const [hostName, setHostName] = useState("");
+  const [numberOfCivils, setNumberOfCivils] = useState(6);
+  const [numberOfMafia, setNumberOfMafia] = useState(1);
+  const [hasPolice, setHasPolice] = useState(false);
   const [controlsTouchedStatus, setControlsTouchedStatus] = useState({
     name: false,
     numberOfPlayers: false,
@@ -34,21 +33,18 @@ export default function MainCreateGamePage({
   };
 
   const onCreateGame = () =>
-    GameApi.createGame(
-      nameControlValue,
-      numberOfPlayersControlValue,
-      numberOfMafiaControlValue,
-      isAddPolice ? 1 : 0
-    ).then((response) => {
-      setGame(response.data.game);
-      setPlayerId(response.data.playerId);
-      setInterval(() => {
-        GameApi.getGame(response.data.game.id).then((responsee) =>
-          setGame(responsee.data)
-        );
-      }, 2000);
-      setActivePanel(mainPanels.waitGame);
-    });
+    GameApi.createGame(hostName, numberOfCivils, numberOfMafia, hasPolice).then(
+      (response) => {
+        setGame(response.data.game);
+        setPlayerId(response.data.playerId);
+        setInterval(() => {
+          GameApi.getGame(response.data.game.id).then((responsee) =>
+            setGame(responsee.data)
+          );
+        }, 2000);
+        setActivePanel(mainPanels.waitGame);
+      }
+    );
 
   return (
     <>
@@ -68,14 +64,14 @@ export default function MainCreateGamePage({
           <FormItem
             top="Имя"
             status={
-              nameControlValue
+              hostName
                 ? "valid"
                 : controlsTouchedStatus.name
                 ? "error"
                 : "default"
             }
             bottom={
-              !nameControlValue && controlsTouchedStatus.name
+              !hostName && controlsTouchedStatus.name
                 ? "Это поле обязательное"
                 : ""
             }
@@ -83,9 +79,9 @@ export default function MainCreateGamePage({
             <Input
               type="text"
               name="name"
-              value={nameControlValue}
+              value={hostName}
               onChange={(e) => {
-                setNameControlValue(e.currentTarget.value);
+                setHostName(e.currentTarget.value);
               }}
               onFocus={(e) => touchControl("name")}
               placeholder="Мое имя"
@@ -94,15 +90,14 @@ export default function MainCreateGamePage({
           <FormItem
             top="Количество игроков"
             status={
-              numberOfPlayersControlValue
+              numberOfCivils
                 ? "valid"
                 : controlsTouchedStatus.numberOfPlayers
                 ? "error"
                 : "default"
             }
             bottom={
-              !numberOfPlayersControlValue &&
-              controlsTouchedStatus.numberOfPlayers
+              !numberOfCivils && controlsTouchedStatus.numberOfPlayers
                 ? "Это поле обязательное"
                 : ""
             }
@@ -110,9 +105,9 @@ export default function MainCreateGamePage({
             <Input
               type="number"
               name="numberOfPlayers"
-              value={numberOfPlayersControlValue}
+              value={numberOfCivils}
               onChange={(e) => {
-                setNumberOfPlayersControlValue(e.currentTarget.value);
+                setNumberOfCivils(e.currentTarget.value);
               }}
               onFocus={(e) => touchControl("numberOfPlayers")}
             />
@@ -120,14 +115,14 @@ export default function MainCreateGamePage({
           <FormItem
             top="Количество мафии"
             status={
-              numberOfMafiaControlValue
+              numberOfMafia
                 ? "valid"
                 : controlsTouchedStatus.numberOfMafia
                 ? "error"
                 : "default"
             }
             bottom={
-              !numberOfMafiaControlValue && controlsTouchedStatus.numberOfMafia
+              !numberOfMafia && controlsTouchedStatus.numberOfMafia
                 ? "Это поле обязательное"
                 : ""
             }
@@ -135,16 +130,16 @@ export default function MainCreateGamePage({
             <Input
               type="number"
               name="numberOfMafia"
-              value={numberOfMafiaControlValue}
+              value={numberOfMafia}
               onChange={(e) => {
-                setNumberOfMafiaControlValue(e.currentTarget.value);
+                setNumberOfMafia(e.currentTarget.value);
               }}
               onFocus={(e) => touchControl("numberOfMafia")}
             />
           </FormItem>
           <Checkbox
-            value={isAddPolice}
-            onChange={(e) => setIsAddPolice(e.currentTarget.value)}
+            value={hasPolice}
+            onChange={(e) => setHasPolice(e.currentTarget.value)}
           >
             Добавить комиссара
           </Checkbox>
@@ -154,11 +149,7 @@ export default function MainCreateGamePage({
               type="submit"
               stretched
               size="l"
-              disabled={
-                !nameControlValue ||
-                !numberOfPlayersControlValue ||
-                !numberOfMafiaControlValue
-              }
+              disabled={!hostName || !numberOfCivils || !numberOfMafia}
               onClick={onCreateGame}
             >
               Создать
