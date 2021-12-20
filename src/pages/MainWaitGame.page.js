@@ -66,9 +66,7 @@ export default function MainWaitGamePage({
           size="l"
           stretched
           disabled={
-            !(
-              game.players.length === game.playersNumber && player.isGameCreator
-            )
+            !(game.players.length === game.playersNumber && player.isHost)
           }
           onClick={onStartGame}
         >

@@ -20,19 +20,23 @@ export default function MainCreateGamePage({
   panelHeaderMessage,
 }) {
   const [hostName, setHostName] = useState("");
-  const [numberOfCivils, setNumberOfCivils] = useState(6);
+  const [numberOfCivils, setNumberOfCivils] = useState(5);
   const [numberOfMafia, setNumberOfMafia] = useState(1);
   const [hasPolice, setHasPolice] = useState(false);
   const [controlsTouchedStatus, setControlsTouchedStatus] = useState({
     name: false,
-    numberOfPlayers: false,
+    numberOfCivils: false,
     numberOfMafia: false,
   });
   const touchControl = (controlName) => {
     setControlsTouchedStatus({ ...controlsTouchedStatus, [controlName]: true });
   };
 
-  const onCreateGame = () =>
+  const onCreateGame = () => {
+    console.log("hostName", hostName);
+    console.log("numberOfCivils", numberOfCivils);
+    console.log("numberOfMafia", numberOfMafia);
+    console.log("hasPolice", hasPolice);
     GameApi.createGame(hostName, numberOfCivils, numberOfMafia, hasPolice).then(
       (response) => {
         setGame(response.data.game);
@@ -45,6 +49,7 @@ export default function MainCreateGamePage({
         setActivePanel(mainPanels.waitGame);
       }
     );
+  };
 
   return (
     <>
@@ -88,28 +93,28 @@ export default function MainCreateGamePage({
             />
           </FormItem>
           <FormItem
-            top="Количество игроков"
+            top="Количество мирных жителей"
             status={
               numberOfCivils
                 ? "valid"
-                : controlsTouchedStatus.numberOfPlayers
+                : controlsTouchedStatus.numberOfCivils
                 ? "error"
                 : "default"
             }
             bottom={
-              !numberOfCivils && controlsTouchedStatus.numberOfPlayers
+              !numberOfCivils && controlsTouchedStatus.numberOfCivils
                 ? "Это поле обязательное"
                 : ""
             }
           >
             <Input
               type="number"
-              name="numberOfPlayers"
+              name="numberOfCivils"
               value={numberOfCivils}
               onChange={(e) => {
                 setNumberOfCivils(e.currentTarget.value);
               }}
-              onFocus={(e) => touchControl("numberOfPlayers")}
+              onFocus={(e) => touchControl("numberOfCivils")}
             />
           </FormItem>
           <FormItem
