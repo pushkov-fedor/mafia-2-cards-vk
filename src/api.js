@@ -30,4 +30,8 @@ export const GameApi = {
       playerName,
       playerVoteValue,
     }),
+  endNight: (gameId) =>
+    axios.post(`${BaseUrl}/game2/endNight`, {
+      gameId,
+    }),
 };

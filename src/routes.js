@@ -5,4 +5,5 @@ export const mainPanels = {
   waitGame: "WaitGame",
   game: "Game",
   night: "Night",
+  police: "Police",
 };
