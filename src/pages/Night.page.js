@@ -8,6 +8,7 @@ import {
   Title,
 } from "@vkontakte/vkui";
 import React, { useState } from "react";
+import { GameApi } from "../api";
 import isMafia from "../utils/isMafia";
 
 export default function NightPage({
@@ -25,6 +26,10 @@ export default function NightPage({
   );
   // ui state
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
+  // methods
+  const onKill = () => {
+    GameApi.mafiaKill(game.id, player.name, selectedPlayerId);
+  };
   return (
     <>
       <PanelHeader>{panelHeaderMessage}</PanelHeader>
@@ -58,6 +63,7 @@ export default function NightPage({
               stretched
               mode="commerce"
               disabled={selectedPlayerId === null}
+              onClick={onKill}
             >
               Убить
             </Button>

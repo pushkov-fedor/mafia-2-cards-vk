@@ -77,7 +77,7 @@ export default function MainGamePage({
               Начать ночь
             </Button>
           </Div>
-          <GameFeedComponent />
+          <GameFeedComponent actions={game.actions} />
         </SplitCol>
       </SplitLayout>
     </>

@@ -49,6 +49,9 @@ const App = () => {
     if (game && game.gamePhase === GamePhase.MafiaTurn) {
       setActivePanel(mainPanels.night);
     }
+    if (game && game.gamePhase === GamePhase.CivilsTurn) {
+      setActivePanel(mainPanels.game);
+    }
   }, [game]);
 
   return (
