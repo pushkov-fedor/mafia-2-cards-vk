@@ -55,6 +55,10 @@ export default function MainGamePage({
     game.players.find((player) => player.id === playerId)
   );
   // ui state
+  // methods
+  const onStartNight = () => {
+    GameApi.startNight(game.id, player.name);
+  };
   return (
     <>
       <PanelHeader
@@ -69,7 +73,7 @@ export default function MainGamePage({
           <MyCardComponent player={player} />
           <Separator style={{ margin: "12px 0" }} />
           <Div>
-            <Button size="l" stretched>
+            <Button size="l" stretched onClick={onStartNight}>
               Начать ночь
             </Button>
           </Div>

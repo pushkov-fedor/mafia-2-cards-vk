@@ -32,7 +32,8 @@ import MainJoinGamePage from "./pages/MainJoinGame.page";
 import MainWaitGamePage from "./pages/MainWaitGame.page";
 import MainGamePage from "./pages/MainGame.page";
 import { GameApi } from "./api";
-import { GameStatus } from "./constants";
+import { GamePhase, GameStatus } from "./constants";
+import NightPage from "./pages/Night.page";
 
 const App = () => {
   const [activeView, setActiveView] = useState("main");
@@ -44,6 +45,9 @@ const App = () => {
   useEffect(() => {
     if (game && game.gameStatus === GameStatus.Started) {
       setActivePanel(mainPanels.game);
+    }
+    if (game && game.gamePhase === GamePhase.MafiaTurn) {
+      setActivePanel(mainPanels.night);
     }
   }, [game]);
 
@@ -85,6 +89,14 @@ const App = () => {
             <MainGamePage
               setActivePanel={setActivePanel}
               panelHeaderMessage="Игра"
+              game={game}
+              playerId={playerId}
+            />
+          </Panel>
+          <Panel id={mainPanels.night}>
+            <NightPage
+              setActivePanel={setActivePanel}
+              panelHeaderMessage="Ночь"
               game={game}
               playerId={playerId}
             />

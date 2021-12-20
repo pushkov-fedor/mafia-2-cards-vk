@@ -5,7 +5,6 @@ import getCardNameByType from "../utils/getCardNameByType";
 
 export default function MyCardComponent({ player }) {
   const [displayCardName, setDisplayCardName] = useState(true);
-
   return (
     <>
       <Div>
@@ -22,7 +21,9 @@ export default function MyCardComponent({ player }) {
           )
         }
       >
-        {displayCardName ? getCardNameByType(player.card.type) : "Карта скрыта"}
+        {displayCardName && player.card
+          ? getCardNameByType(player.card.type)
+          : "Карта скрыта"}
       </SimpleCell>
     </>
   );
