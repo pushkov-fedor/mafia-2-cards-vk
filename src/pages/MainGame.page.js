@@ -1,4 +1,9 @@
-import { Icon24Cancel, Icon24Done } from "@vkontakte/icons";
+import {
+  Icon24Cancel,
+  Icon24Done,
+  Icon24Hide,
+  Icon24HideOutline,
+} from "@vkontakte/icons";
 import {
   ANDROID,
   Avatar,
@@ -20,6 +25,7 @@ import {
   Snackbar,
   SplitCol,
   SplitLayout,
+  Separator,
   Switch,
   Title,
   usePlatform,
@@ -27,15 +33,28 @@ import {
 } from "@vkontakte/vkui";
 import React, { useEffect, useState } from "react";
 import { GameApi } from "../api";
+import GameFeedComponent from "../components/GameFeed.component";
+import MyCardComponent from "../components/MyCard.component";
 import { CardType, GamePhase, HealthStatus } from "../constants";
 import { mainPanels } from "../routes";
+import getCardNameByType from "../utils/getCardNameByType";
 import "./MainGame.page.css";
 
 const Modals = {
   MafiaTurn: "MafiaTurn",
 };
 
-export default function MainGamePage({ setActivePanel, panelHeaderMessage }) {
+export default function MainGamePage({
+  setActivePanel,
+  panelHeaderMessage,
+  game,
+  playerId,
+}) {
+  // game models
+  const [player, setPlayer] = useState(
+    game.players.find((player) => player.id === playerId)
+  );
+  // ui state
   return (
     <>
       <PanelHeader
@@ -46,7 +65,16 @@ export default function MainGamePage({ setActivePanel, panelHeaderMessage }) {
         {panelHeaderMessage}
       </PanelHeader>
       <SplitLayout>
-        <SplitCol>123</SplitCol>
+        <SplitCol>
+          <MyCardComponent player={player} />
+          <Separator style={{ margin: "12px 0" }} />
+          <Div>
+            <Button size="l" stretched>
+              Начать ночь
+            </Button>
+          </Div>
+          <GameFeedComponent />
+        </SplitCol>
       </SplitLayout>
     </>
   );
