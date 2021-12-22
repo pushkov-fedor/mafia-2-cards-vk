@@ -11,6 +11,7 @@ import {
 import getPlayerById from "../utils/getPlayerById";
 import { GameApi } from "../api";
 import isAlive from "../utils/isAlive";
+import getOtherPlayersAlive from "../utils/getOtherPlayersAlive";
 
 export default function CivilsPage({
   setActivePanel,
@@ -21,7 +22,7 @@ export default function CivilsPage({
   // game models
   const [player, setPlayer] = useState(getPlayerById(game, playerId));
   const [otherPlayers, setOtherPlayers] = useState(
-    game.players.filter((player) => player.id !== playerId)
+    getOtherPlayersAlive(game, playerId)
   );
   // ui state
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);

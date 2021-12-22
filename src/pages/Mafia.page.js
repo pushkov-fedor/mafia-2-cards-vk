@@ -10,6 +10,7 @@ import {
 import React, { useState } from "react";
 import { useEffect } from "react/cjs/react.development";
 import { GameApi } from "../api";
+import getOtherPlayersAlive from "../utils/getOtherPlayersAlive";
 import getPlayerById from "../utils/getPlayerById";
 import isMafia from "../utils/isMafia";
 
@@ -22,7 +23,7 @@ export default function MafiaPage({
   // game models
   const [player, setPlayer] = useState(getPlayerById(game, playerId));
   const [otherPlayers, setOtherPlayers] = useState(
-    game.players.filter((player) => player.id !== playerId)
+    getOtherPlayersAlive(game, playerId)
   );
   // ui state
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);

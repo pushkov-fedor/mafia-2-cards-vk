@@ -18,6 +18,7 @@ import isPolice from "../utils/isPolice";
 import { CardType } from "../constants";
 import getPlayerById from "../utils/getPlayerById";
 import { GameApi } from "../api";
+import getOtherPlayersAlive from "../utils/getOtherPlayersAlive";
 
 const PoliceModals = {
   mafia: "Mafia",
@@ -33,7 +34,7 @@ export default function PolicePage({
   // game models
   const [player, setPlayer] = useState(getPlayerById(game, playerId));
   const [otherPlayers, setOtherPlayers] = useState(
-    game.players.filter((player) => player.id !== playerId)
+    getOtherPlayersAlive(game, playerId)
   );
   // ui state
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
