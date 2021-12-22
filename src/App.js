@@ -104,7 +104,7 @@ const App = () => {
           <Panel id={mainPanels.mafia}>
             <MafiaPage
               setActivePanel={setActivePanel}
-              panelHeaderMessage="Ночь"
+              panelHeaderMessage="Ночь: ход Мафии"
               game={game}
               playerId={playerId}
             />
@@ -112,7 +112,7 @@ const App = () => {
           <Panel id={mainPanels.police}>
             <PolicePage
               setActivePanel={setActivePanel}
-              panelHeaderMessage="Ночь"
+              panelHeaderMessage="Ночь: ход Комиссара"
               game={game}
               playerId={playerId}
             />

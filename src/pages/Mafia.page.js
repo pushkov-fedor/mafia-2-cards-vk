@@ -12,6 +12,7 @@ import { useEffect } from "react/cjs/react.development";
 import { GameApi } from "../api";
 import getOtherPlayersAlive from "../utils/getOtherPlayersAlive";
 import getPlayerById from "../utils/getPlayerById";
+import isAlive from "../utils/isAlive";
 import isMafia from "../utils/isMafia";
 
 export default function MafiaPage({
@@ -25,10 +26,12 @@ export default function MafiaPage({
   const [otherPlayers, setOtherPlayers] = useState(
     getOtherPlayersAlive(game, playerId)
   );
+  const [hasVoted, setHasVoted] = useState(false);
   // ui state
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
   // methods
   const onKill = () => {
+    setHasVoted(true);
     GameApi.mafiaKill(game.id, player.name, selectedPlayerId);
   };
   // effects
@@ -38,7 +41,7 @@ export default function MafiaPage({
   return (
     <>
       <PanelHeader>{panelHeaderMessage}</PanelHeader>
-      {isMafia(player) ? (
+      {isMafia(player) && isAlive(player) && !hasVoted && (
         <>
           <Div>
             <Title level="2" weight="medium">
@@ -74,9 +77,12 @@ export default function MafiaPage({
             </Button>
           </Div>
         </>
-      ) : (
-        <Div>Спокойной ночи!</Div>
       )}
+      {isMafia(player) && isAlive(player) && hasVoted && (
+        <Div>Ваш голос учтен, ждем остальных игроков</Div>
+      )}
+      {isMafia(player) && !isAlive(player) && <Div>Вы мертвы</Div>}
+      {!isMafia(player) && <Div>Спокойной ночи!</Div>}
     </>
   );
 }

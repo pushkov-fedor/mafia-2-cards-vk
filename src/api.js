@@ -19,30 +19,30 @@ export const GameApi = {
     axios.post(`${BaseUrl}/game2/start`, {
       gameId,
     }),
-  startNight: (gameId, playerName) =>
+  startNight: (gameId, playerId) =>
     axios.post(`${BaseUrl}/game2/startNight`, {
       gameId,
-      playerName,
+      playerId,
     }),
-  mafiaKill: (gameId, playerName, playerVoteValue) =>
+  mafiaKill: (gameId, playerId, playerVoteValue) =>
     axios.post(`${BaseUrl}/game2/mafiaKill`, {
       gameId,
-      playerName,
+      playerId,
       playerVoteValue,
     }),
   endNight: (gameId) =>
     axios.post(`${BaseUrl}/game2/endNight`, {
       gameId,
     }),
-  startTrial: (gameId, playerName) =>
+  startTrial: (gameId, playerId) =>
     axios.post(`${BaseUrl}/game2/startTrial`, {
       gameId,
-      playerName,
+      playerId,
     }),
-  civilsKill: (gameId, playerName, playerVoteValue) =>
+  civilsKill: (gameId, playerId, playerVoteValue) =>
     axios.post(`${BaseUrl}/game2/civilsKill`, {
       gameId,
-      playerName,
+      playerId,
       playerVoteValue,
     }),
 };

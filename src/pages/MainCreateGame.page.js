@@ -33,18 +33,21 @@ export default function MainCreateGamePage({
   };
 
   const onCreateGame = () => {
-    GameApi.createGame(hostName, numberOfCivils, numberOfMafia, hasPolice).then(
-      (response) => {
-        setGame(response.data.game);
-        setPlayerId(response.data.playerId);
-        setInterval(() => {
-          GameApi.getGame(response.data.game.id).then((responsee) => {
-            setGame(responsee.data);
-          });
-        }, 2000);
-        setActivePanel(mainPanels.waitGame);
-      }
-    );
+    GameApi.createGame(
+      hostName,
+      Number(numberOfCivils),
+      Number(numberOfMafia),
+      hasPolice
+    ).then((response) => {
+      setGame(response.data.game);
+      setPlayerId(response.data.playerId);
+      setInterval(() => {
+        GameApi.getGame(response.data.game.id).then((responsee) => {
+          setGame(responsee.data);
+        });
+      }, 2000);
+      setActivePanel(mainPanels.waitGame);
+    });
   };
 
   return (
@@ -140,7 +143,7 @@ export default function MainCreateGamePage({
           </FormItem>
           <Checkbox
             value={hasPolice}
-            onChange={(e) => setHasPolice(e.currentTarget.value)}
+            onChange={(e) => setHasPolice(e.currentTarget.checked)}
           >
             Добавить комиссара
           </Checkbox>

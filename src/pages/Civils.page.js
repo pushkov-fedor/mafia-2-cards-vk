@@ -24,10 +24,12 @@ export default function CivilsPage({
   const [otherPlayers, setOtherPlayers] = useState(
     getOtherPlayersAlive(game, playerId)
   );
+  const [hasVoted, setHasVoted] = useState(false);
   // ui state
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
   // methods
   const onCivilsKill = () => {
+    setHasVoted(true);
     GameApi.civilsKill(game.id, playerId, selectedPlayerId);
   };
   // effects
@@ -37,7 +39,7 @@ export default function CivilsPage({
   return (
     <>
       <PanelHeader>{panelHeaderMessage}</PanelHeader>
-      {isAlive(player) ? (
+      {isAlive(player) && !hasVoted && (
         <>
           <Div>
             <Title level="2" weight="medium">
@@ -73,9 +75,11 @@ export default function CivilsPage({
             </Button>
           </Div>
         </>
-      ) : (
-        <Div>Вы мертвы</Div>
       )}
+      {isAlive(player) && hasVoted && (
+        <Div>Ваш голос учтен, ждем остальных игроков</Div>
+      )}
+      {!isAlive(player) && <Div>Вы мертвы</Div>}
     </>
   );
 }
