@@ -33,18 +33,14 @@ export default function MainCreateGamePage({
   };
 
   const onCreateGame = () => {
-    console.log("hostName", hostName);
-    console.log("numberOfCivils", numberOfCivils);
-    console.log("numberOfMafia", numberOfMafia);
-    console.log("hasPolice", hasPolice);
     GameApi.createGame(hostName, numberOfCivils, numberOfMafia, hasPolice).then(
       (response) => {
         setGame(response.data.game);
         setPlayerId(response.data.playerId);
         setInterval(() => {
-          GameApi.getGame(response.data.game.id).then((responsee) =>
-            setGame(responsee.data)
-          );
+          GameApi.getGame(response.data.game.id).then((responsee) => {
+            setGame(responsee.data);
+          });
         }, 2000);
         setActivePanel(mainPanels.waitGame);
       }

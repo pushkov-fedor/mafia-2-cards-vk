@@ -9,10 +9,9 @@ export const GameStatus = {
 export const GamePhase = {
   MafiaTurn: 0,
   PoliceTurn: 1,
-  CardRevealAfterNight: 2,
+  Discussion: 2,
   CivilsTurn: 3,
-  CardRevealAfterCourt: 4,
-  BeforeNight: 5,
+  BeforeNight: 4,
 };
 
 export const CardType = {

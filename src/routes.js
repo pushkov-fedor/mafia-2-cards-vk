@@ -4,6 +4,6 @@ export const mainPanels = {
   joinGame: "JoinGame",
   waitGame: "WaitGame",
   game: "Game",
-  night: "Night",
+  mafia: "Mafia",
   police: "Police",
 };

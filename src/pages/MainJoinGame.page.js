@@ -33,9 +33,9 @@ export default function MainJoinGamePage({
         setGame(response.data.game);
         setPlayerId(response.data.playerId);
         setInterval(() => {
-          GameApi.getGame(response.data.game.id).then((responsee) =>
-            setGame(responsee.data)
-          );
+          GameApi.getGame(response.data.game.id).then((responsee) => {
+            setGame(responsee.data);
+          });
         }, 2000);
         if (response.data.game.gameStatus === GameStatus.Started) {
           setActivePanel(mainPanels.game);

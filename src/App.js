@@ -33,7 +33,7 @@ import MainWaitGamePage from "./pages/MainWaitGame.page";
 import MainGamePage from "./pages/MainGame.page";
 import { GameApi } from "./api";
 import { GamePhase, GameStatus } from "./constants";
-import NightPage from "./pages/Night.page";
+import MafiaPage from "./pages/Mafia.page";
 import PolicePage from "./pages/Police.page";
 
 const App = () => {
@@ -48,7 +48,7 @@ const App = () => {
       setActivePanel(mainPanels.game);
     }
     if (game && game.gamePhase === GamePhase.MafiaTurn) {
-      setActivePanel(mainPanels.night);
+      setActivePanel(mainPanels.mafia);
     }
     if (game && game.gamePhase === GamePhase.CivilsTurn) {
       setActivePanel(mainPanels.game);
@@ -103,8 +103,8 @@ const App = () => {
               playerId={playerId}
             />
           </Panel>
-          <Panel id={mainPanels.night}>
-            <NightPage
+          <Panel id={mainPanels.mafia}>
+            <MafiaPage
               setActivePanel={setActivePanel}
               panelHeaderMessage="Ночь"
               game={game}

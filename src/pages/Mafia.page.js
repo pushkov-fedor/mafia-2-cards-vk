@@ -8,19 +8,19 @@ import {
   Title,
 } from "@vkontakte/vkui";
 import React, { useState } from "react";
+import { useEffect } from "react/cjs/react.development";
 import { GameApi } from "../api";
+import getPlayerById from "../utils/getPlayerById";
 import isMafia from "../utils/isMafia";
 
-export default function NightPage({
+export default function MafiaPage({
   setActivePanel,
   panelHeaderMessage,
   game,
   playerId,
 }) {
   // game models
-  const [player, setPlayer] = useState(
-    game.players.find((player) => player.id === playerId)
-  );
+  const [player, setPlayer] = useState(getPlayerById(game, playerId));
   const [otherPlayers, setOtherPlayers] = useState(
     game.players.filter((player) => player.id !== playerId)
   );
@@ -30,6 +30,10 @@ export default function NightPage({
   const onKill = () => {
     GameApi.mafiaKill(game.id, player.name, selectedPlayerId);
   };
+  // effects
+  useEffect(() => {
+    setPlayer(getPlayerById(game, playerId));
+  }, [game]);
   return (
     <>
       <PanelHeader>{panelHeaderMessage}</PanelHeader>
@@ -70,7 +74,7 @@ export default function NightPage({
           </Div>
         </>
       ) : (
-        <Div>Вы мирный</Div>
+        <Div>Спокойной ночи!</Div>
       )}
     </>
   );

@@ -38,6 +38,7 @@ import MyCardComponent from "../components/MyCard.component";
 import { CardType, GamePhase, HealthStatus } from "../constants";
 import { mainPanels } from "../routes";
 import getCardNameByType from "../utils/getCardNameByType";
+import getPlayerById from "../utils/getPlayerById";
 import "./MainGame.page.css";
 
 const Modals = {
@@ -51,14 +52,19 @@ export default function MainGamePage({
   playerId,
 }) {
   // game models
-  const [player, setPlayer] = useState(
-    game.players.find((player) => player.id === playerId)
-  );
+  const [player, setPlayer] = useState(getPlayerById(game, playerId));
   // ui state
   // methods
   const onStartNight = () => {
     GameApi.startNight(game.id, player.name);
   };
+  // const onStartTrial = () => {
+  //   GameApi.
+  // }
+  // effects
+  useEffect(() => {
+    setPlayer(getPlayerById(game, playerId));
+  }, [game]);
   return (
     <>
       <PanelHeader
@@ -73,9 +79,16 @@ export default function MainGamePage({
           <MyCardComponent player={player} />
           <Separator style={{ margin: "12px 0" }} />
           <Div>
-            <Button size="l" stretched onClick={onStartNight}>
-              Начать ночь
-            </Button>
+            {game.gamePhase === GamePhase.BeforeNight && (
+              <Button size="l" stretched onClick={onStartNight}>
+                Начать ночь
+              </Button>
+            )}
+            {game.gamePhase === GamePhase.CivilsTurn && (
+              <Button size="l" stretched onClick={onStartNight}>
+                Начать суд
+              </Button>
+            )}
           </Div>
           <GameFeedComponent actions={game.actions} />
         </SplitCol>

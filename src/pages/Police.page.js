@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Button,
@@ -16,6 +16,7 @@ import {
 import { Icon56Users3Outline } from "@vkontakte/icons";
 import isPolice from "../utils/isPolice";
 import { CardType } from "../constants";
+import getPlayerById from "../utils/getPlayerById";
 import { GameApi } from "../api";
 
 const PoliceModals = {
@@ -30,9 +31,7 @@ export default function PolicePage({
   playerId,
 }) {
   // game models
-  const [player, setPlayer] = useState(
-    game.players.find((player) => player.id === playerId)
-  );
+  const [player, setPlayer] = useState(getPlayerById(game, playerId));
   const [otherPlayers, setOtherPlayers] = useState(
     game.players.filter((player) => player.id !== playerId)
   );
@@ -83,7 +82,10 @@ export default function PolicePage({
       />
     </ModalRoot>
   );
-
+  // effects
+  useEffect(() => {
+    setPlayer(getPlayerById(game, playerId));
+  }, [game]);
   return (
     <>
       <PanelHeader>{panelHeaderMessage}</PanelHeader>
@@ -126,7 +128,7 @@ export default function PolicePage({
           </SplitCol>
         </SplitLayout>
       ) : (
-        <Div>Вы мирный</Div>
+        <Div>Спокойной ночи!</Div>
       )}
     </>
   );
