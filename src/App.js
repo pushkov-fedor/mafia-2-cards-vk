@@ -41,6 +41,7 @@ import isMafiaTurnPhase from "./utils/isMafiaTurnPhase";
 import isPoliceTurnPhase from "./utils/isPoliceTurnPhase";
 import isCivilsTurnPhase from "./utils/isCivilsTurnPhase";
 import isDiscussionPhase from "./utils/isDiscussionPhase";
+import isGameFinished from "./utils/isGameFinished";
 
 const App = () => {
   const [activeView, setActiveView] = useState("main");
@@ -50,7 +51,11 @@ const App = () => {
   const [playerId, setPlayerId] = useState(null);
 
   useEffect(() => {
-    if (isBeforeNightPhase(game) || isDiscussionPhase(game)) {
+    if (
+      isBeforeNightPhase(game) ||
+      isDiscussionPhase(game) ||
+      isGameFinished(game)
+    ) {
       setActivePanel(mainPanels.game);
     }
     if (isMafiaTurnPhase(game)) {

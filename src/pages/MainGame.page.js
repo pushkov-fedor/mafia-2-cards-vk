@@ -37,10 +37,11 @@ import React, { useEffect, useState } from "react";
 import { GameApi } from "../api";
 import GameFeedComponent from "../components/GameFeed.component";
 import MyCardComponent from "../components/MyCard.component";
-import { CardType, GamePhase, HealthStatus } from "../constants";
+import { CardType, GamePhase, HealthStatus, GameResult } from "../constants";
 import { mainPanels } from "../routes";
 import getCardNameByType from "../utils/getCardNameByType";
 import getPlayerById from "../utils/getPlayerById";
+import isGameFinished from "../utils/isGameFinished";
 import "./MainGame.page.css";
 
 const GameModals = {
@@ -98,6 +99,12 @@ export default function MainGamePage({
   // effects
   useEffect(() => {
     setPlayer(getPlayerById(game, playerId));
+    if (isGameFinished(game) && game.result === GameResult.CivilWins) {
+      setActiveModal(GameModals.CivilWins);
+    }
+    if (isGameFinished(game) && game.result === GameResult.MafiaWins) {
+      setActiveModal(GameModals.MafiaWins);
+    }
   }, [game]);
   return (
     <>
