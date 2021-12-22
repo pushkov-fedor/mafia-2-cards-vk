@@ -25,3 +25,8 @@ export const HealthStatus = {
   Injured: 1,
   Dead: 2,
 };
+
+export const GameResult = {
+  MafiaWins: 0,
+  CivilWins: 0,
+};

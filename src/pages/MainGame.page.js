@@ -3,6 +3,7 @@ import {
   Icon24Done,
   Icon24Hide,
   Icon24HideOutline,
+  Icon56CupMusicNoteOutline,
 } from "@vkontakte/icons";
 import {
   ANDROID,
@@ -30,6 +31,7 @@ import {
   Title,
   usePlatform,
   VKCOM,
+  ModalCard,
 } from "@vkontakte/vkui";
 import React, { useEffect, useState } from "react";
 import { GameApi } from "../api";
@@ -41,8 +43,9 @@ import getCardNameByType from "../utils/getCardNameByType";
 import getPlayerById from "../utils/getPlayerById";
 import "./MainGame.page.css";
 
-const Modals = {
-  MafiaTurn: "MafiaTurn",
+const GameModals = {
+  MafiaWins: "MafiaWins",
+  CivilWins: "CivilWins",
 };
 
 export default function MainGamePage({
@@ -54,6 +57,7 @@ export default function MainGamePage({
   // game models
   const [player, setPlayer] = useState(getPlayerById(game, playerId));
   // ui state
+  const [activeModal, setActiveModal] = useState(null);
   // methods
   const onStartNight = () => {
     GameApi.startNight(game.id, player.name);
@@ -61,6 +65,36 @@ export default function MainGamePage({
   const onStartTrial = () => {
     GameApi.startTrial(game.id, playerId);
   };
+  const onFinishedGame = () => {};
+  // modal
+  const modal = (
+    <ModalRoot activeModal={activeModal}>
+      <ModalCard
+        id={GameModals.MafiaWins}
+        header="Результат"
+        subheader="Победила мафия"
+        icon={<Icon56CupMusicNoteOutline />}
+        onClose={onFinishedGame}
+        actions={
+          <Button size="l" mode="primary" onClick={onFinishedGame}>
+            Завершить ход
+          </Button>
+        }
+      />
+      <ModalCard
+        id={GameModals.CivilWins}
+        header="Результат"
+        subheader="Победили мирные жители"
+        icon={<Icon56CupMusicNoteOutline />}
+        onClose={onFinishedGame}
+        actions={
+          <Button size="l" mode="primary" onClick={onFinishedGame}>
+            Завершить ход
+          </Button>
+        }
+      />
+    </ModalRoot>
+  );
   // effects
   useEffect(() => {
     setPlayer(getPlayerById(game, playerId));
@@ -74,7 +108,7 @@ export default function MainGamePage({
       >
         {panelHeaderMessage}
       </PanelHeader>
-      <SplitLayout>
+      <SplitLayout modal={modal}>
         <SplitCol>
           <MyCardComponent player={player} />
           <Separator style={{ margin: "12px 0" }} />
