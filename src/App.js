@@ -36,6 +36,11 @@ import { GamePhase, GameStatus } from "./constants";
 import MafiaPage from "./pages/Mafia.page";
 import PolicePage from "./pages/Police.page";
 import CivilsPage from "./pages/Civils.page";
+import isBeforeNightPhase from "./utils/isBeforeNightPhase";
+import isMafiaTurnPhase from "./utils/isMafiaTurnPhase";
+import isPoliceTurnPhase from "./utils/isPoliceTurnPhase";
+import isCivilsTurnPhase from "./utils/isCivilsTurnPhase";
+import isDiscussionPhase from "./utils/isDiscussionPhase";
 
 const App = () => {
   const [activeView, setActiveView] = useState("main");
@@ -45,16 +50,16 @@ const App = () => {
   const [playerId, setPlayerId] = useState(null);
 
   useEffect(() => {
-    if (game && game.gameStatus === GameStatus.Started) {
+    if (isBeforeNightPhase(game) || isDiscussionPhase(game)) {
       setActivePanel(mainPanels.game);
     }
-    if (game && game.gamePhase === GamePhase.MafiaTurn) {
+    if (isMafiaTurnPhase(game)) {
       setActivePanel(mainPanels.mafia);
     }
-    if (game && game.gamePhase === GamePhase.PoliceTurn) {
+    if (isPoliceTurnPhase(game)) {
       setActivePanel(mainPanels.police);
     }
-    if (game && game.gamePhase === GamePhase.CivilsTurn) {
+    if (isCivilsTurnPhase(game)) {
       setActivePanel(mainPanels.civils);
     }
   }, [game]);
