@@ -6,4 +6,5 @@ export const mainPanels = {
   game: "Game",
   mafia: "Mafia",
   police: "Police",
+  civils: "Civils",
 };

@@ -58,9 +58,9 @@ export default function MainGamePage({
   const onStartNight = () => {
     GameApi.startNight(game.id, player.name);
   };
-  // const onStartTrial = () => {
-  //   GameApi.
-  // }
+  const onStartTrial = () => {
+    GameApi.startTrial(game.id, playerId);
+  };
   // effects
   useEffect(() => {
     setPlayer(getPlayerById(game, playerId));
@@ -84,8 +84,8 @@ export default function MainGamePage({
                 Начать ночь
               </Button>
             )}
-            {game.gamePhase === GamePhase.CivilsTurn && (
-              <Button size="l" stretched onClick={onStartNight}>
+            {game.gamePhase === GamePhase.Discussion && (
+              <Button size="l" stretched onClick={onStartTrial}>
                 Начать суд
               </Button>
             )}

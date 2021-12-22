@@ -35,6 +35,7 @@ import { GameApi } from "./api";
 import { GamePhase, GameStatus } from "./constants";
 import MafiaPage from "./pages/Mafia.page";
 import PolicePage from "./pages/Police.page";
+import CivilsPage from "./pages/Civils.page";
 
 const App = () => {
   const [activeView, setActiveView] = useState("main");
@@ -50,14 +51,11 @@ const App = () => {
     if (game && game.gamePhase === GamePhase.MafiaTurn) {
       setActivePanel(mainPanels.mafia);
     }
-    if (game && game.gamePhase === GamePhase.CivilsTurn) {
-      setActivePanel(mainPanels.game);
-    }
     if (game && game.gamePhase === GamePhase.PoliceTurn) {
       setActivePanel(mainPanels.police);
     }
     if (game && game.gamePhase === GamePhase.CivilsTurn) {
-      setActivePanel(mainPanels.game);
+      setActivePanel(mainPanels.civils);
     }
   }, [game]);
 
@@ -115,6 +113,14 @@ const App = () => {
             <PolicePage
               setActivePanel={setActivePanel}
               panelHeaderMessage="Ночь"
+              game={game}
+              playerId={playerId}
+            />
+          </Panel>
+          <Panel id={mainPanels.civils}>
+            <CivilsPage
+              setActivePanel={setActivePanel}
+              panelHeaderMessage="Суд"
               game={game}
               playerId={playerId}
             />
