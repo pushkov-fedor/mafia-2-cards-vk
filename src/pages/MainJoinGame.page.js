@@ -16,6 +16,7 @@ export default function MainJoinGamePage({
   setActivePanel,
   setGame,
   setPlayerId,
+  subscribeToGame,
   panelHeaderMessage,
 }) {
   const [roomCodeControlValue, setRoomCodeControlValue] = useState("");
@@ -32,11 +33,7 @@ export default function MainJoinGamePage({
       (response) => {
         setGame(response.data.game);
         setPlayerId(response.data.playerId);
-        setInterval(() => {
-          GameApi.getGame(response.data.game.id).then((responsee) => {
-            setGame(responsee.data);
-          });
-        }, 2000);
+        subscribeToGame(response.data.game.id);
         if (response.data.game.gameStatus === GameStatus.Started) {
           setActivePanel(mainPanels.game);
           return;

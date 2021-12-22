@@ -17,6 +17,7 @@ export default function MainCreateGamePage({
   setActivePanel,
   setGame,
   setPlayerId,
+  subscribeToGame,
   panelHeaderMessage,
 }) {
   const [hostName, setHostName] = useState("");
@@ -41,11 +42,7 @@ export default function MainCreateGamePage({
     ).then((response) => {
       setGame(response.data.game);
       setPlayerId(response.data.playerId);
-      setInterval(() => {
-        GameApi.getGame(response.data.game.id).then((responsee) => {
-          setGame(responsee.data);
-        });
-      }, 2000);
+      subscribeToGame(response.data.game.id);
       setActivePanel(mainPanels.waitGame);
     });
   };

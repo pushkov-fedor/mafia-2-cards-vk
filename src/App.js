@@ -44,18 +44,31 @@ import isDiscussionPhase from "./utils/isDiscussionPhase";
 import isGameFinished from "./utils/isGameFinished";
 
 const App = () => {
-  const [activeView, setActiveView] = useState("main");
-  const [activePanel, setActivePanel] = useState(mainPanels.home);
-
+  // game models
   const [game, setGame] = useState(null);
   const [playerId, setPlayerId] = useState(null);
 
+  // ui state
+  const [activeView, setActiveView] = useState("main");
+  const [activePanel, setActivePanel] = useState(mainPanels.home);
+  const [intervalId, setIntervalId] = useState(null);
+  // methods
+  const subscribeToGame = (gameId) => {
+    const intervalId = setInterval(() => {
+      GameApi.getGame(gameId).then((responsee) => {
+        setGame(responsee.data);
+      });
+    }, 2000);
+    setIntervalId(intervalId);
+  };
+  // effects
   useEffect(() => {
-    if (
-      isBeforeNightPhase(game) ||
-      isDiscussionPhase(game) ||
-      isGameFinished(game)
-    ) {
+    if (isGameFinished(game)) {
+      setActivePanel(mainPanels.game);
+      clearInterval(intervalId);
+      setIntervalId(null);
+    }
+    if (isBeforeNightPhase(game) || isDiscussionPhase(game)) {
       setActivePanel(mainPanels.game);
     }
     if (isMafiaTurnPhase(game)) {
@@ -84,6 +97,7 @@ const App = () => {
               setActivePanel={setActivePanel}
               setGame={setGame}
               setPlayerId={setPlayerId}
+              subscribeToGame={subscribeToGame}
               panelHeaderMessage="Создать игру"
             />
           </Panel>
@@ -92,6 +106,7 @@ const App = () => {
               setActivePanel={setActivePanel}
               setGame={setGame}
               setPlayerId={setPlayerId}
+              subscribeToGame={subscribeToGame}
               panelHeaderMessage="Присоединиться к игре"
             />
           </Panel>
