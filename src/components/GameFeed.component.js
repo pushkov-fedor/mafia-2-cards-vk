@@ -7,7 +7,7 @@ export default function GameFeedComponent({ actions = [] }) {
       {actions.map((action) => (
         <SimpleCell
           key={action.id}
-          before={<Avatar />}
+          before={<Avatar src={action.killedPlayer.photoUrl} />}
           description={action.message}
         >
           {action.killedPlayer.name}

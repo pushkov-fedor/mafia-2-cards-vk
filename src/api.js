@@ -2,16 +2,24 @@ import axios from "axios";
 import { BaseUrl } from "./constants";
 
 export const GameApi = {
-  createGame: (creatorName, civilsNumber, mafiaNumber, hasPolice) =>
+  createGame: (
+    creatorName,
+    playerPhotoUrl,
+    civilsNumber,
+    mafiaNumber,
+    hasPolice
+  ) =>
     axios.post(`${BaseUrl}/game2/create`, {
       creatorName,
+      playerPhotoUrl,
       civilsNumber,
       mafiaNumber,
       hasPolice,
     }),
-  joinGame: (playerName, gameId) =>
+  joinGame: (playerName, playerPhotoUrl, gameId) =>
     axios.post(`${BaseUrl}/game2/join`, {
       playerName,
+      playerPhotoUrl,
       gameId,
     }),
   getGame: (gameId) => axios.get(`${BaseUrl}/game2/get/${gameId}`),

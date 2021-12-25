@@ -54,7 +54,10 @@ export default function MainWaitGamePage({
       <Group header={<Header>Игроки</Header>}>
         <Div>
           {game.players.map((player) => (
-            <SimpleCell before={<Avatar />} key={player.id}>
+            <SimpleCell
+              before={<Avatar src={player.photoUrl} />}
+              key={player.id}
+            >
               {player.name}
             </SimpleCell>
           ))}

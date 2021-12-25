@@ -25,6 +25,7 @@ import {
 } from "@vkontakte/vkui";
 import "@vkontakte/vkui/dist/vkui.css";
 import "./App.css";
+import bridge from "@vkontakte/vk-bridge";
 import { mainPanels } from "./routes";
 import MainHomePage from "./pages/MainHome.page";
 import MainCreateGamePage from "./pages/MainCreateGame.page";
@@ -47,7 +48,7 @@ const App = () => {
   // game models
   const [game, setGame] = useState(null);
   const [playerId, setPlayerId] = useState(null);
-
+  const [playerPhotoUrl, setPlayerPhotoUrl] = useState(null);
   // ui state
   const [activeView, setActiveView] = useState("main");
   const [activePanel, setActivePanel] = useState(mainPanels.home);
@@ -81,6 +82,11 @@ const App = () => {
       setActivePanel(mainPanels.civils);
     }
   }, [game]);
+  useEffect(() => {
+    bridge.send("VKWebAppGetUserInfo").then((res) => {
+      setPlayerPhotoUrl(res.photo_200);
+    });
+  });
 
   return (
     <AppRoot>
@@ -99,6 +105,7 @@ const App = () => {
               setPlayerId={setPlayerId}
               subscribeToGame={subscribeToGame}
               panelHeaderMessage="Создать игру"
+              playerPhotoUrl={playerPhotoUrl}
             />
           </Panel>
           <Panel id={mainPanels.joinGame}>
@@ -108,6 +115,7 @@ const App = () => {
               setPlayerId={setPlayerId}
               subscribeToGame={subscribeToGame}
               panelHeaderMessage="Присоединиться к игре"
+              playerPhotoUrl={playerPhotoUrl}
             />
           </Panel>
           <Panel id={mainPanels.waitGame}>

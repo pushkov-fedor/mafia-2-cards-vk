@@ -18,6 +18,7 @@ export default function MainJoinGamePage({
   setPlayerId,
   subscribeToGame,
   panelHeaderMessage,
+  playerPhotoUrl,
 }) {
   const [roomCodeControlValue, setRoomCodeControlValue] = useState("");
   const [nameControlValue, setNameControlValue] = useState("");
@@ -29,18 +30,20 @@ export default function MainJoinGamePage({
     setControlsTouchedStatus({ ...controlsTouchedStatus, [controlName]: true });
   };
   const onJoin = () => {
-    GameApi.joinGame(nameControlValue, roomCodeControlValue).then(
-      (response) => {
-        setGame(response.data.game);
-        setPlayerId(response.data.playerId);
-        subscribeToGame(response.data.game.id);
-        if (response.data.game.gameStatus === GameStatus.Started) {
-          setActivePanel(mainPanels.game);
-          return;
-        }
-        setActivePanel(mainPanels.waitGame);
+    GameApi.joinGame(
+      nameControlValue,
+      playerPhotoUrl,
+      roomCodeControlValue
+    ).then((response) => {
+      setGame(response.data.game);
+      setPlayerId(response.data.playerId);
+      subscribeToGame(response.data.game.id);
+      if (response.data.game.gameStatus === GameStatus.Started) {
+        setActivePanel(mainPanels.game);
+        return;
       }
-    );
+      setActivePanel(mainPanels.waitGame);
+    });
   };
   return (
     <>

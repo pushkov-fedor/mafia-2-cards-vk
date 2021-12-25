@@ -52,7 +52,7 @@ export default function MafiaPage({
             {otherPlayers.map((player) => (
               <Cell
                 mode="selectable"
-                before={<Avatar />}
+                before={<Avatar src={player.photoUrl} />}
                 onChange={() => {
                   setSelectedPlayerId(
                     player.id === selectedPlayerId ? null : player.id

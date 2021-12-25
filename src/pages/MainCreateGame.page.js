@@ -19,6 +19,7 @@ export default function MainCreateGamePage({
   setPlayerId,
   subscribeToGame,
   panelHeaderMessage,
+  playerPhotoUrl,
 }) {
   const [hostName, setHostName] = useState("");
   const [numberOfCivils, setNumberOfCivils] = useState(5);
@@ -36,6 +37,7 @@ export default function MainCreateGamePage({
   const onCreateGame = () => {
     GameApi.createGame(
       hostName,
+      playerPhotoUrl,
       Number(numberOfCivils),
       Number(numberOfMafia),
       hasPolice
