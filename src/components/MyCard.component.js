@@ -3,8 +3,10 @@ import { Div, SimpleCell, Title } from "@vkontakte/vkui";
 import React, { useState } from "react";
 import getCardNameByType from "../utils/getCardNameByType";
 
+let displayCardNameSave = true;
+
 export default function MyCardComponent({ player }) {
-  const [displayCardName, setDisplayCardName] = useState(true);
+  const [displayCardName, setDisplayCardName] = useState(displayCardNameSave);
   return (
     <>
       <Div>
@@ -16,9 +18,19 @@ export default function MyCardComponent({ player }) {
         <SimpleCell
           after={
             displayCardName ? (
-              <Icon24HideOutline onClick={() => setDisplayCardName(false)} />
+              <Icon24HideOutline
+                onClick={() => {
+                  setDisplayCardName(false);
+                  displayCardNameSave = false;
+                }}
+              />
             ) : (
-              <Icon24Hide onClick={() => setDisplayCardName(true)} />
+              <Icon24Hide
+                onClick={() => {
+                  setDisplayCardName(true);
+                  displayCardNameSave = true;
+                }}
+              />
             )
           }
         >
