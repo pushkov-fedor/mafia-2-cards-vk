@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Avatar,
   Button,
@@ -12,9 +12,11 @@ import {
   SimpleCell,
   Title,
 } from "@vkontakte/vkui";
+import { Howl, Howler } from "howler";
 import { mainPanels } from "../routes";
 import "./MainWaitGame.page.css";
 import { GameApi } from "../api";
+import citySleep from "../assets/citySleep.mp3";
 
 export default function MainWaitGamePage({
   setActivePanel,
@@ -22,12 +24,25 @@ export default function MainWaitGamePage({
   game,
   playerId,
 }) {
+  // game models
   const player = game.players.find((player) => player.id === playerId);
+  // methods
   const onStartGame = () => {
     GameApi.starGame(game.id).then((response) => {
       setActivePanel(mainPanels.game);
     });
   };
+  // effects
+  useEffect(() => {
+    const sound = new Howl({
+      src: [citySleep],
+      onend: () => {
+        console.log("finished");
+      },
+    });
+    sound.play();
+    console.log("playing");
+  }, []);
   return (
     <>
       <PanelHeader
