@@ -41,6 +41,7 @@ import { CardType, GamePhase, HealthStatus, GameResult } from "../constants";
 import { mainPanels } from "../routes";
 import getCardNameByType from "../utils/getCardNameByType";
 import getPlayerById from "../utils/getPlayerById";
+import isAlive from "../utils/isAlive";
 import isGameFinished from "../utils/isGameFinished";
 import "./MainGame.page.css";
 
@@ -66,7 +67,10 @@ export default function MainGamePage({
   const onStartTrial = () => {
     GameApi.startTrial(game.id, playerId);
   };
-  const onFinishedGame = () => {};
+  const onFinishedGame = () => {
+    setActiveModal(null);
+    setActivePanel(mainPanels.home);
+  };
   // modal
   const modal = (
     <ModalRoot activeModal={activeModal}>
@@ -78,7 +82,7 @@ export default function MainGamePage({
         onClose={onFinishedGame}
         actions={
           <Button size="l" mode="primary" onClick={onFinishedGame}>
-            Завершить ход
+            Завершить игру
           </Button>
         }
       />
@@ -90,7 +94,7 @@ export default function MainGamePage({
         onClose={onFinishedGame}
         actions={
           <Button size="l" mode="primary" onClick={onFinishedGame}>
-            Завершить ход
+            Завершить игру
           </Button>
         }
       />
@@ -121,12 +125,22 @@ export default function MainGamePage({
           <Separator style={{ margin: "12px 0" }} />
           <Div>
             {game.gamePhase === GamePhase.BeforeNight && (
-              <Button size="l" stretched onClick={onStartNight}>
+              <Button
+                size="l"
+                stretched
+                onClick={onStartNight}
+                disabled={!isAlive(player)}
+              >
                 Начать ночь
               </Button>
             )}
             {game.gamePhase === GamePhase.Discussion && (
-              <Button size="l" stretched onClick={onStartTrial}>
+              <Button
+                size="l"
+                stretched
+                onClick={onStartTrial}
+                disabled={!isAlive(player)}
+              >
                 Начать суд
               </Button>
             )}
