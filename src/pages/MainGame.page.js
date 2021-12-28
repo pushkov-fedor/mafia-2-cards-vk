@@ -39,8 +39,10 @@ import GameFeedComponent from "../components/GameFeed.component";
 import MyCardComponent from "../components/MyCard.component";
 import { CardType, GamePhase, HealthStatus, GameResult } from "../constants";
 import { mainPanels } from "../routes";
+import getAlivePlayersNumber from "../utils/getAlivePlayersNumber";
 import getCardNameByType from "../utils/getCardNameByType";
 import getPlayerById from "../utils/getPlayerById";
+import getVotedPlayersNumber from "../utils/getVotedPlayersNumber";
 import isAlive from "../utils/isAlive";
 import isGameFinished from "../utils/isGameFinished";
 import "./MainGame.page.css";
@@ -104,6 +106,7 @@ export default function MainGamePage({
   useEffect(() => {
     setPlayer(getPlayerById(game, playerId));
     if (isGameFinished(game) && game.result === GameResult.CivilWins) {
+      console.log("CivilWins");
       setActiveModal(GameModals.CivilWins);
     }
     if (isGameFinished(game) && game.result === GameResult.MafiaWins) {
@@ -131,7 +134,11 @@ export default function MainGamePage({
                 onClick={onStartNight}
                 disabled={!isAlive(player)}
               >
-                Начать ночь
+                {getVotedPlayersNumber(game) === 0
+                  ? "Начать ночь"
+                  : `Начать ночь (голосов ${getVotedPlayersNumber(
+                      game
+                    )} из ${getAlivePlayersNumber(game)})`}
               </Button>
             )}
             {game.gamePhase === GamePhase.Discussion && (
@@ -141,7 +148,11 @@ export default function MainGamePage({
                 onClick={onStartTrial}
                 disabled={!isAlive(player)}
               >
-                Начать суд
+                {getVotedPlayersNumber(game) === 0
+                  ? "Начать суд"
+                  : `Начать суд (голосов ${getVotedPlayersNumber(
+                      game
+                    )} из ${getAlivePlayersNumber(game)})`}
               </Button>
             )}
           </Div>
