@@ -16,7 +16,6 @@ import { Howl, Howler } from "howler";
 import { mainPanels } from "../routes";
 import "./MainWaitGame.page.css";
 import { GameApi } from "../api";
-import playersSleep from "../assets/playersSleep.mp3";
 
 export default function MainWaitGamePage({
   setActivePanel,
@@ -32,17 +31,6 @@ export default function MainWaitGamePage({
       setActivePanel(mainPanels.game);
     });
   };
-  // effects
-  // useEffect(() => {
-  //   const sound = new Howl({
-  //     src: [playersSleep],
-  //     onend: () => {
-  //       console.log("finished");
-  //     },
-  //   });
-  //   sound.play();
-  //   console.log("playing");
-  // }, []);
   return (
     <>
       <PanelHeader

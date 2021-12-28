@@ -14,6 +14,15 @@ export const GamePhase = {
   BeforeNight: 4,
 };
 
+export const GameAudioPhase = {
+  PlayersSleep: 0,
+  PlayersWakeUp: 1,
+  MafiaSleep: 2,
+  MafiaWakeUp: 3,
+  PoliceSleep: 4,
+  PoliceWakeUp: 5,
+};
+
 export const CardType = {
   Mafia: 0,
   Police: 1,

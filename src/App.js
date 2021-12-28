@@ -33,7 +33,7 @@ import MainJoinGamePage from "./pages/MainJoinGame.page";
 import MainWaitGamePage from "./pages/MainWaitGame.page";
 import MainGamePage from "./pages/MainGame.page";
 import { GameApi } from "./api";
-import { GamePhase, GameStatus } from "./constants";
+import { GameAudioPhase, GamePhase, GameStatus } from "./constants";
 import MafiaPage from "./pages/Mafia.page";
 import PolicePage from "./pages/Police.page";
 import CivilsPage from "./pages/Civils.page";
@@ -43,12 +43,15 @@ import isPoliceTurnPhase from "./utils/isPoliceTurnPhase";
 import isCivilsTurnPhase from "./utils/isCivilsTurnPhase";
 import isDiscussionPhase from "./utils/isDiscussionPhase";
 import isGameFinished from "./utils/isGameFinished";
+import getPlayerById from "./utils/getPlayerById";
+import { soundManager } from "./sound-manager";
 
 const App = () => {
   // game models
   const [game, setGame] = useState(null);
   const [playerId, setPlayerId] = useState(null);
   const [playerPhotoUrl, setPlayerPhotoUrl] = useState(null);
+  const [gameAudioPhase, setGameAudioPhase] = useState(null);
   // ui state
   const [activeView, setActiveView] = useState("main");
   const [activePanel, setActivePanel] = useState(mainPanels.home);
@@ -58,6 +61,7 @@ const App = () => {
     const intervalId = setInterval(() => {
       GameApi.getGame(gameId).then((responsee) => {
         setGame(responsee.data);
+        setGameAudioPhase(responsee.data.gameAudioPhase);
       });
     }, 2000);
     setIntervalId(intervalId);
@@ -82,6 +86,37 @@ const App = () => {
       setActivePanel(mainPanels.civils);
     }
   }, [game]);
+  useEffect(() => {
+    if (game) {
+      const player = getPlayerById(game, playerId);
+      if (
+        player.isHost &&
+        (gameAudioPhase !== null || gameAudioPhase !== undefined)
+      ) {
+        switch (gameAudioPhase) {
+          case GameAudioPhase.MafiaSleep:
+            soundManager.mafiaSleep.play();
+            break;
+          case GameAudioPhase.MafiaWakeUp:
+            soundManager.mafiaWakeUp.play();
+            break;
+          case GameAudioPhase.PlayersSleep:
+            soundManager.playersSleep.play();
+            break;
+          case GameAudioPhase.PlayersWakeUp:
+            soundManager.playersWakeUp.play();
+            break;
+          case GameAudioPhase.PoliceSleep:
+            soundManager.policeSleep.play();
+            break;
+          case GameAudioPhase.PoliceWakeUp:
+            soundManager.policeWakeUp.play();
+            break;
+          default:
+        }
+      }
+    }
+  }, [gameAudioPhase]);
   useEffect(() => {
     bridge.send("VKWebAppGetUserInfo").then((res) => {
       setPlayerPhotoUrl(res.photo_200);
