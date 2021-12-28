@@ -19,6 +19,7 @@ import { CardType } from "../constants";
 import getPlayerById from "../utils/getPlayerById";
 import { GameApi } from "../api";
 import getOtherPlayersAlive from "../utils/getOtherPlayersAlive";
+import ErrorSnackbar from "../components/ErrorSnackbar";
 
 const PoliceModals = {
   mafia: "Mafia",
@@ -39,6 +40,7 @@ export default function PolicePage({
   // ui state
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
   const [activeModal, setActiveModal] = useState(null);
+  const [snackbarError, setSnackbarError] = useState(null);
   // methods
   const onPoliceCheck = () => {
     const selectedPlayer = otherPlayers.find(
@@ -52,7 +54,7 @@ export default function PolicePage({
   };
   const onEndNight = () => {
     setActiveModal(null);
-    GameApi.endNight(game.id);
+    GameApi.endNight(game.id).catch((e) => setSnackbarError(e));
   };
   // modal
   const modal = (
@@ -130,6 +132,12 @@ export default function PolicePage({
         </SplitLayout>
       ) : (
         <Div>Спокойной ночи!</Div>
+      )}
+      {snackbarError && (
+        <ErrorSnackbar
+          errorMessage={snackbarError}
+          closeSnackbar={() => setSnackbarError(null)}
+        />
       )}
     </>
   );

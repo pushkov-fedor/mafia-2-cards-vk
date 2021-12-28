@@ -35,6 +35,7 @@ import {
 } from "@vkontakte/vkui";
 import React, { useEffect, useState } from "react";
 import { GameApi } from "../api";
+import ErrorSnackbar from "../components/ErrorSnackbar";
 import GameFeedComponent from "../components/GameFeed.component";
 import MyCardComponent from "../components/MyCard.component";
 import { CardType, GamePhase, HealthStatus, GameResult } from "../constants";
@@ -63,14 +64,15 @@ export default function MainGamePage({
   // ui state
   const [activeModal, setActiveModal] = useState(null);
   const [hasVoted, setHasVoted] = useState(false);
+  const [snackbarError, setSnackbarError] = useState(null);
   // methods
   const onStartNight = () => {
     setHasVoted(true);
-    GameApi.startNight(game.id, player.name);
+    GameApi.startNight(game.id, player.name).catch((e) => setSnackbarError(e));
   };
   const onStartTrial = () => {
     setHasVoted(true);
-    GameApi.startTrial(game.id, playerId);
+    GameApi.startTrial(game.id, playerId).catch((e) => setSnackbarError(e));
   };
   const onFinishedGame = () => {
     setActiveModal(null);
@@ -169,6 +171,12 @@ export default function MainGamePage({
           <GameFeedComponent actions={game.actions} />
         </SplitCol>
       </SplitLayout>
+      {snackbarError && (
+        <ErrorSnackbar
+          errorMessage={snackbarError}
+          closeSnackbar={() => setSnackbarError(null)}
+        />
+      )}
     </>
   );
 }

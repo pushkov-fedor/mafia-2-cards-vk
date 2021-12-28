@@ -11,6 +11,7 @@ import React, { useState } from "react";
 import { GameApi } from "../api";
 import { mainPanels } from "../routes";
 import { GameStatus } from "../constants";
+import ErrorSnackbar from "../components/ErrorSnackbar";
 
 export default function MainJoinGamePage({
   setActivePanel,
@@ -20,30 +21,35 @@ export default function MainJoinGamePage({
   panelHeaderMessage,
   playerPhotoUrl,
 }) {
+  // ui state
   const [roomCodeControlValue, setRoomCodeControlValue] = useState("");
   const [nameControlValue, setNameControlValue] = useState("");
   const [controlsTouchedStatus, setControlsTouchedStatus] = useState({
     roomCode: false,
     name: false,
   });
+  const [snackbarError, setSnackbarError] = useState(null);
+  // public methods
   const touchControl = (controlName) => {
     setControlsTouchedStatus({ ...controlsTouchedStatus, [controlName]: true });
   };
   const onJoin = () => {
-    GameApi.joinGame(
-      nameControlValue,
-      playerPhotoUrl,
-      roomCodeControlValue
-    ).then((response) => {
-      setGame(response.data.game);
-      setPlayerId(response.data.playerId);
-      subscribeToGame(response.data.game.id);
-      if (response.data.game.gameStatus === GameStatus.Started) {
-        setActivePanel(mainPanels.game);
-        return;
-      }
-      setActivePanel(mainPanels.waitGame);
-    });
+    GameApi.joinGame(nameControlValue, playerPhotoUrl, roomCodeControlValue)
+      .then((response) => {
+        console.log(response);
+        setGame(response.data.game);
+        setPlayerId(response.data.playerId);
+        subscribeToGame(response.data.game.id);
+        if (response.data.game.gameStatus === GameStatus.Started) {
+          setActivePanel(mainPanels.game);
+          return;
+        }
+        setActivePanel(mainPanels.waitGame);
+      })
+      .catch((e) => {
+        const errorMessage = e.response.data.message;
+        setSnackbarError(errorMessage);
+      });
   };
   return (
     <>
@@ -126,6 +132,12 @@ export default function MainJoinGamePage({
           </FormItem>
         </FormLayout>
       </Group>
+      {snackbarError && (
+        <ErrorSnackbar
+          errorMessage={snackbarError}
+          closeSnackbar={() => setSnackbarError(null)}
+        />
+      )}
     </>
   );
 }

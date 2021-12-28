@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Button,
@@ -16,6 +16,7 @@ import { Howl, Howler } from "howler";
 import { mainPanels } from "../routes";
 import "./MainWaitGame.page.css";
 import { GameApi } from "../api";
+import ErrorSnackbar from "../components/ErrorSnackbar";
 
 export default function MainWaitGamePage({
   setActivePanel,
@@ -25,11 +26,15 @@ export default function MainWaitGamePage({
 }) {
   // game models
   const player = game.players.find((player) => player.id === playerId);
+  // ui state
+  const [snackbarError, setSnackbarError] = useState(null);
   // methods
   const onStartGame = () => {
-    GameApi.starGame(game.id).then((response) => {
-      setActivePanel(mainPanels.game);
-    });
+    GameApi.starGame(game.id)
+      .then((response) => {
+        setActivePanel(mainPanels.game);
+      })
+      .catch((e) => setSnackbarError(e));
   };
   return (
     <>
@@ -79,6 +84,12 @@ export default function MainWaitGamePage({
           Начать игру
         </Button>
       </Div>
+      {snackbarError && (
+        <ErrorSnackbar
+          errorMessage={snackbarError}
+          closeSnackbar={() => setSnackbarError(null)}
+        />
+      )}
     </>
   );
 }

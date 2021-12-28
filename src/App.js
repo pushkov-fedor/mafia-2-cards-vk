@@ -22,6 +22,7 @@ import {
   FormLayout,
   FormItem,
   Input,
+  Snackbar,
 } from "@vkontakte/vkui";
 import "@vkontakte/vkui/dist/vkui.css";
 import "./App.css";

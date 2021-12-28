@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import {
   Button,
   Checkbox,
@@ -12,6 +11,7 @@ import {
 } from "@vkontakte/vkui";
 import { mainPanels } from "../routes";
 import { GameApi } from "../api";
+import ErrorSnackbar from "../components/ErrorSnackbar";
 
 export default function MainCreateGamePage({
   setActivePanel,
@@ -30,10 +30,11 @@ export default function MainCreateGamePage({
     numberOfCivils: false,
     numberOfMafia: false,
   });
+  const [snackbarError, setSnackbarError] = useState(null);
+  // public methods
   const touchControl = (controlName) => {
     setControlsTouchedStatus({ ...controlsTouchedStatus, [controlName]: true });
   };
-
   const onCreateGame = () => {
     GameApi.createGame(
       hostName,
@@ -41,12 +42,14 @@ export default function MainCreateGamePage({
       Number(numberOfCivils),
       Number(numberOfMafia),
       hasPolice
-    ).then((response) => {
-      setGame(response.data.game);
-      setPlayerId(response.data.playerId);
-      subscribeToGame(response.data.game.id);
-      setActivePanel(mainPanels.waitGame);
-    });
+    )
+      .then((response) => {
+        setGame(response.data.game);
+        setPlayerId(response.data.playerId);
+        subscribeToGame(response.data.game.id);
+        setActivePanel(mainPanels.waitGame);
+      })
+      .catch((e) => setSnackbarError(e));
   };
 
   return (
@@ -160,6 +163,12 @@ export default function MainCreateGamePage({
           </FormItem>
         </FormLayout>
       </Group>
+      {snackbarError && (
+        <ErrorSnackbar
+          errorMessage={snackbarError}
+          closeSnackbar={() => setSnackbarError(null)}
+        />
+      )}
     </>
   );
 }

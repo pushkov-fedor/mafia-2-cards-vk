@@ -10,6 +10,7 @@ import {
 import React, { useState } from "react";
 import { useEffect } from "react/cjs/react.development";
 import { GameApi } from "../api";
+import ErrorSnackbar from "../components/ErrorSnackbar";
 import getOtherPlayersAlive from "../utils/getOtherPlayersAlive";
 import getPlayerById from "../utils/getPlayerById";
 import isAlive from "../utils/isAlive";
@@ -29,10 +30,13 @@ export default function MafiaPage({
   const [hasVoted, setHasVoted] = useState(false);
   // ui state
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
+  const [snackbarError, setSnackbarError] = useState(null);
   // methods
   const onKill = () => {
     setHasVoted(true);
-    GameApi.mafiaKill(game.id, player.name, selectedPlayerId);
+    GameApi.mafiaKill(game.id, player.name, selectedPlayerId).catch((e) =>
+      setSnackbarError(e)
+    );
   };
   // effects
   useEffect(() => {
@@ -83,6 +87,12 @@ export default function MafiaPage({
       )}
       {isMafia(player) && !isAlive(player) && <Div>Вы мертвы</Div>}
       {!isMafia(player) && <Div>Спокойной ночи!</Div>}
+      {snackbarError && (
+        <ErrorSnackbar
+          errorMessage={snackbarError}
+          closeSnackbar={() => setSnackbarError(null)}
+        />
+      )}
     </>
   );
 }
