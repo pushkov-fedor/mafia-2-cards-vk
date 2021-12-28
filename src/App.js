@@ -121,7 +121,13 @@ const App = () => {
     bridge.send("VKWebAppGetUserInfo").then((res) => {
       setPlayerPhotoUrl(res.photo_200);
     });
-  });
+  }, []);
+  useEffect(() => {
+    if (activePanel === mainPanels.home && intervalId) {
+      clearInterval(intervalId);
+      setIntervalId(null);
+    }
+  }, [activePanel]);
 
   return (
     <AppRoot>
