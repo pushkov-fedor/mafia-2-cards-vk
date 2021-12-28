@@ -2,14 +2,17 @@ import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Button,
+  Caption,
   Cell,
   Div,
   Group,
   Header,
+  Headline,
   PanelHeader,
   PanelHeaderBack,
   Separator,
   SimpleCell,
+  Subhead,
   Title,
 } from "@vkontakte/vkui";
 import { Howl, Howler } from "howler";
@@ -50,6 +53,13 @@ export default function MainWaitGamePage({
           <Title level="1" weight="bold" className="wait-game-panel__room-code">
             Код игры: {game.id}
           </Title>
+          <Caption
+            level="1"
+            weight="regular"
+            className="wait-game-panel__code-description"
+          >
+            Поделитесь этим кодом с друзьями, чтобы они к вам присоединились
+          </Caption>
           <Title
             level="2"
             weight="regular"

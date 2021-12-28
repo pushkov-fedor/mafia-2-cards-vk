@@ -1,6 +1,9 @@
 .wait-game-panel__room-code {
   text-align: center;
-  margin-bottom: 10px;
+}
+.wait-game-panel__code-description {
+  text-align: center;
+  margin-bottom: 20px;
 }
 .wait-game-panel__room-players {
   text-align: center;
