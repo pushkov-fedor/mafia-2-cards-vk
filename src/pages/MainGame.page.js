@@ -62,11 +62,14 @@ export default function MainGamePage({
   const [player, setPlayer] = useState(getPlayerById(game, playerId));
   // ui state
   const [activeModal, setActiveModal] = useState(null);
+  const [hasVoted, setHasVoted] = useState(false);
   // methods
   const onStartNight = () => {
+    setHasVoted(true);
     GameApi.startNight(game.id, player.name);
   };
   const onStartTrial = () => {
+    setHasVoted(true);
     GameApi.startTrial(game.id, playerId);
   };
   const onFinishedGame = () => {
@@ -105,24 +108,18 @@ export default function MainGamePage({
   // effects
   useEffect(() => {
     setPlayer(getPlayerById(game, playerId));
-    if (isGameFinished(game) && game.result === GameResult.CivilWins) {
-      setActiveModal(GameModals.CivilWins);
-    }
-    if (isGameFinished(game) && game.result === GameResult.MafiaWins) {
-      setActiveModal(GameModals.MafiaWins);
-    }
   }, [game]);
   useEffect(() => {
-    console.log(game);
-    console.log(GameResult);
     if (isGameFinished(game) && game.result === GameResult.CivilWins) {
       setActiveModal(GameModals.CivilWins);
     }
     if (isGameFinished(game) && game.result === GameResult.MafiaWins) {
       setActiveModal(GameModals.MafiaWins);
     }
-    console.log(activeModal);
   }, [game.result]);
+  useEffect(() => {
+    setHasVoted(false);
+  }, [game.gamePhase]);
   return (
     <>
       <PanelHeader
@@ -142,7 +139,7 @@ export default function MainGamePage({
                 size="l"
                 stretched
                 onClick={onStartNight}
-                disabled={!isAlive(player)}
+                disabled={!isAlive(player) || hasVoted}
               >
                 {getVotedPlayersNumber(game) === 0
                   ? "Начать ночь"
@@ -156,7 +153,7 @@ export default function MainGamePage({
                 size="l"
                 stretched
                 onClick={onStartTrial}
-                disabled={!isAlive(player)}
+                disabled={!isAlive(player) || hasVoted}
               >
                 {getVotedPlayersNumber(game) === 0
                   ? "Начать суд"
@@ -166,6 +163,9 @@ export default function MainGamePage({
               </Button>
             )}
           </Div>
+          {isAlive(player) && hasVoted && (
+            <Div>Ваш голос учтен, ждем остальных игроков</Div>
+          )}
           <GameFeedComponent actions={game.actions} />
         </SplitCol>
       </SplitLayout>
