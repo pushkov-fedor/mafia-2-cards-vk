@@ -106,13 +106,23 @@ export default function MainGamePage({
   useEffect(() => {
     setPlayer(getPlayerById(game, playerId));
     if (isGameFinished(game) && game.result === GameResult.CivilWins) {
-      console.log("CivilWins");
       setActiveModal(GameModals.CivilWins);
     }
     if (isGameFinished(game) && game.result === GameResult.MafiaWins) {
       setActiveModal(GameModals.MafiaWins);
     }
   }, [game]);
+  useEffect(() => {
+    console.log(game);
+    console.log(GameResult);
+    if (isGameFinished(game) && game.result === GameResult.CivilWins) {
+      setActiveModal(GameModals.CivilWins);
+    }
+    if (isGameFinished(game) && game.result === GameResult.MafiaWins) {
+      setActiveModal(GameModals.MafiaWins);
+    }
+    console.log(activeModal);
+  }, [game.result]);
   return (
     <>
       <PanelHeader

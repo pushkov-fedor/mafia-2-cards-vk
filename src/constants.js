@@ -37,5 +37,5 @@ export const HealthStatus = {
 
 export const GameResult = {
   MafiaWins: 0,
-  CivilWins: 0,
+  CivilWins: 1,
 };
