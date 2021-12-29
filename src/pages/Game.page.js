@@ -46,7 +46,7 @@ import getPlayerById from "../utils/getPlayerById";
 import getVotedPlayersNumber from "../utils/getVotedPlayersNumber";
 import isAlive from "../utils/isAlive";
 import isGameFinished from "../utils/isGameFinished";
-import "./MainGame.page.css";
+import "./Game.page.css";
 
 const GameModals = {
   MafiaWins: "MafiaWins",

@@ -17,7 +17,7 @@ import {
 } from "@vkontakte/vkui";
 import { Howl, Howler } from "howler";
 import { mainPanels } from "../routes";
-import "./MainWaitGame.page.css";
+import "./WaitGame.page.css";
 import { GameApi } from "../api";
 import ErrorSnackbar from "../components/ErrorSnackbar";
 
