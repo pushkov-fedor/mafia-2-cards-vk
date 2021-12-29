@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/mafia-2-cards-vk/static/css/main.472e3205.chunk.css",
+    "main.js": "/mafia-2-cards-vk/static/js/main.05724ea5.chunk.js",
+    "main.js.map": "/mafia-2-cards-vk/static/js/main.05724ea5.chunk.js.map",
+    "runtime-main.js": "/mafia-2-cards-vk/static/js/runtime-main.a5317209.js",
+    "runtime-main.js.map": "/mafia-2-cards-vk/static/js/runtime-main.a5317209.js.map",
+    "static/css/2.a0f58343.chunk.css": "/mafia-2-cards-vk/static/css/2.a0f58343.chunk.css",
+    "static/js/2.d02d3dfc.chunk.js": "/mafia-2-cards-vk/static/js/2.d02d3dfc.chunk.js",
+    "static/js/2.d02d3dfc.chunk.js.map": "/mafia-2-cards-vk/static/js/2.d02d3dfc.chunk.js.map",
+    "index.html": "/mafia-2-cards-vk/index.html",
+    "static/css/2.a0f58343.chunk.css.map": "/mafia-2-cards-vk/static/css/2.a0f58343.chunk.css.map",
+    "static/css/main.472e3205.chunk.css.map": "/mafia-2-cards-vk/static/css/main.472e3205.chunk.css.map",
+    "static/js/2.d02d3dfc.chunk.js.LICENSE.txt": "/mafia-2-cards-vk/static/js/2.d02d3dfc.chunk.js.LICENSE.txt",
+    "static/media/mafiaSleep.150eb60b.mp3": "/mafia-2-cards-vk/static/media/mafiaSleep.150eb60b.mp3",
+    "static/media/mafiaWakeUp.3e03da91.mp3": "/mafia-2-cards-vk/static/media/mafiaWakeUp.3e03da91.mp3",
+    "static/media/playersSleep.c4c1ee3c.mp3": "/mafia-2-cards-vk/static/media/playersSleep.c4c1ee3c.mp3",
+    "static/media/playersWakeUp.8798fe3d.mp3": "/mafia-2-cards-vk/static/media/playersWakeUp.8798fe3d.mp3",
+    "static/media/policeSleep.031070aa.mp3": "/mafia-2-cards-vk/static/media/policeSleep.031070aa.mp3",
+    "static/media/policeWakeUp.2662b9d8.mp3": "/mafia-2-cards-vk/static/media/policeWakeUp.2662b9d8.mp3"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a5317209.js",
+    "static/css/2.a0f58343.chunk.css",
+    "static/js/2.d02d3dfc.chunk.js",
+    "static/css/main.472e3205.chunk.css",
+    "static/js/main.05724ea5.chunk.js"
+  ]
+}
