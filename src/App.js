@@ -1,29 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  useAdaptivity,
-  AppRoot,
-  SplitLayout,
-  SplitCol,
-  ViewWidth,
-  View,
-  Panel,
-  PanelHeader,
-  Header,
-  Group,
-  SimpleCell,
-  Root,
-  Button,
-  Div,
-  Cell,
-  PanelHeaderBack,
-  Avatar,
-  Search,
-  Spinner,
-  FormLayout,
-  FormItem,
-  Input,
-  Snackbar,
-} from "@vkontakte/vkui";
+import { AppRoot, View, Panel, Root } from "@vkontakte/vkui";
 import "@vkontakte/vkui/dist/vkui.css";
 import "./App.css";
 import bridge from "@vkontakte/vk-bridge";
@@ -34,7 +10,7 @@ import MainJoinGamePage from "./pages/JoinGame.page";
 import MainWaitGamePage from "./pages/WaitGame.page";
 import MainGamePage from "./pages/Game.page";
 import { GameApi } from "./api";
-import { GameAudioPhase, GamePhase, GameStatus } from "./constants";
+import { GameAudioPhase } from "./constants";
 import MafiaPage from "./pages/Mafia.page";
 import PolicePage from "./pages/Police.page";
 import CivilsPage from "./pages/Civils.page";
@@ -46,6 +22,7 @@ import isDiscussionPhase from "./utils/isDiscussionPhase";
 import isGameFinished from "./utils/isGameFinished";
 import getPlayerById from "./utils/getPlayerById";
 import { soundManager } from "./sound-manager";
+import IntroPage from "./pages/Intro.page";
 
 const App = () => {
   // game models
@@ -134,6 +111,12 @@ const App = () => {
     <AppRoot>
       <Root activeView={activeView}>
         <View activePanel={activePanel} id="main">
+          <Panel id={mainPanels.intro}>
+            <IntroPage
+              setActivePanel={setActivePanel}
+              panelHeaderMessage="Добро пожаловать!"
+            />
+          </Panel>
           <Panel centered id={mainPanels.home} className="home-panel">
             <MainHomePage
               setActivePanel={setActivePanel}

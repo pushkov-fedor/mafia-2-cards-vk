@@ -1,4 +1,5 @@
 export const mainPanels = {
+  intro: "Intro",
   home: "Home",
   createGame: "CreateGame",
   joinGame: "JoinGame",

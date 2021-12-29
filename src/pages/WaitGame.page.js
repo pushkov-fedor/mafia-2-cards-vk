@@ -1,21 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Avatar,
   Button,
   Caption,
-  Cell,
   Div,
   Group,
   Header,
-  Headline,
   PanelHeader,
   PanelHeaderBack,
-  Separator,
   SimpleCell,
-  Subhead,
   Title,
 } from "@vkontakte/vkui";
-import { Howl, Howler } from "howler";
 import { mainPanels } from "../routes";
 import "./WaitGame.page.css";
 import { GameApi } from "../api";

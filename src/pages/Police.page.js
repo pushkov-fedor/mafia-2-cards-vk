@@ -6,7 +6,6 @@ import {
   Div,
   Group,
   ModalCard,
-  ModalPage,
   ModalRoot,
   PanelHeader,
   SplitCol,

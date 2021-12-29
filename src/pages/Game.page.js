@@ -1,36 +1,13 @@
+import { Icon56CupMusicNoteOutline } from "@vkontakte/icons";
 import {
-  Icon24Cancel,
-  Icon24Done,
-  Icon24Hide,
-  Icon24HideOutline,
-  Icon56CupMusicNoteOutline,
-} from "@vkontakte/icons";
-import {
-  ANDROID,
-  Avatar,
   Button,
-  Caption,
-  Cell,
   Div,
-  Group,
-  Header,
-  IOS,
-  ModalPage,
-  ModalPageHeader,
   ModalRoot,
   PanelHeader,
   PanelHeaderBack,
-  PanelHeaderButton,
-  ScreenSpinner,
-  SimpleCell,
-  Snackbar,
   SplitCol,
   SplitLayout,
   Separator,
-  Switch,
-  Title,
-  usePlatform,
-  VKCOM,
   ModalCard,
 } from "@vkontakte/vkui";
 import React, { useEffect, useState } from "react";
@@ -38,10 +15,9 @@ import { GameApi } from "../api";
 import ErrorSnackbar from "../components/ErrorSnackbar";
 import GameFeedComponent from "../components/GameFeed.component";
 import MyCardComponent from "../components/MyCard.component";
-import { CardType, GamePhase, HealthStatus, GameResult } from "../constants";
+import { GamePhase, GameResult } from "../constants";
 import { mainPanels } from "../routes";
 import getAlivePlayersNumber from "../utils/getAlivePlayersNumber";
-import getCardNameByType from "../utils/getCardNameByType";
 import getPlayerById from "../utils/getPlayerById";
 import getVotedPlayersNumber from "../utils/getVotedPlayersNumber";
 import isAlive from "../utils/isAlive";
