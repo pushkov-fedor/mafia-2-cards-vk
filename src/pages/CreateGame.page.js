@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Checkbox,
@@ -31,6 +31,14 @@ export default function MainCreateGamePage({
     numberOfMafia: false,
   });
   const [snackbarError, setSnackbarError] = useState(null);
+  const [numberOfMafiaValidStatus, setNumberOfMafiaValidStatus] =
+    useState("valid");
+  const [numberOfMafiaErrorMessage, setNumberOfMafiaErrorMessage] =
+    useState("");
+  const [numberOfCivilsValidStatus, setNumberOfCivilsValidStatus] =
+    useState("valid");
+  const [numberOfCivilsErrorMessage, setNumberOfCivilsErrorMessage] =
+    useState("");
   // public methods
   const touchControl = (controlName) => {
     setControlsTouchedStatus({ ...controlsTouchedStatus, [controlName]: true });
@@ -44,7 +52,6 @@ export default function MainCreateGamePage({
       hasPolice
     )
       .then((response) => {
-        console.log(response);
         setGame(response.data.game);
         setPlayerId(response.data.playerId);
         subscribeToGame(response.data.game.id);
@@ -55,6 +62,45 @@ export default function MainCreateGamePage({
         setSnackbarError(errorMessage);
       });
   };
+  // effects
+  useEffect(() => {
+    const numberOfMafiaNum = Number(numberOfMafia);
+    const numberOfCivilsNum = Number(numberOfCivils);
+    let mafiaValidErrorWasRegisteredInCurrentRun = false;
+    let civilsValidErrorWasREgisteredInCurrentRun = false;
+    if (numberOfMafiaNum < 1) {
+      setNumberOfMafiaValidStatus("error");
+      setNumberOfMafiaErrorMessage("Мафии должно быть больше 0");
+      mafiaValidErrorWasRegisteredInCurrentRun = true;
+    }
+    if (numberOfCivilsNum < 3) {
+      setNumberOfCivilsValidStatus("error");
+      setNumberOfCivilsErrorMessage("Мирных жителей должно быть больше 2");
+      civilsValidErrorWasREgisteredInCurrentRun = true;
+    }
+    if (numberOfMafiaNum === numberOfCivilsNum) {
+      setNumberOfMafiaValidStatus("error");
+      setNumberOfMafiaErrorMessage(
+        "Мафии не может быть столько же, сколько мирных жителей"
+      );
+      mafiaValidErrorWasRegisteredInCurrentRun = true;
+    }
+    if (numberOfMafiaNum > numberOfCivilsNum) {
+      setNumberOfMafiaValidStatus("error");
+      setNumberOfMafiaErrorMessage(
+        "Мафии не может быть больше, чем мирных жителей"
+      );
+      mafiaValidErrorWasRegisteredInCurrentRun = true;
+    }
+    if (!mafiaValidErrorWasRegisteredInCurrentRun) {
+      setNumberOfMafiaValidStatus("valid");
+      setNumberOfMafiaErrorMessage("");
+    }
+    if (!civilsValidErrorWasREgisteredInCurrentRun) {
+      setNumberOfCivilsValidStatus("valid");
+      setNumberOfCivilsErrorMessage("");
+    }
+  }, [numberOfMafia, numberOfCivils]);
 
   return (
     <>
@@ -99,43 +145,23 @@ export default function MainCreateGamePage({
           </FormItem>
           <FormItem
             top="Количество мирных жителей"
-            status={
-              numberOfCivils
-                ? "valid"
-                : controlsTouchedStatus.numberOfCivils
-                ? "error"
-                : "default"
-            }
-            bottom={
-              !numberOfCivils && controlsTouchedStatus.numberOfCivils
-                ? "Это поле обязательное"
-                : ""
-            }
+            status={numberOfCivilsValidStatus}
+            bottom={numberOfCivilsErrorMessage}
           >
             <Input
               type="number"
               name="numberOfCivils"
               value={numberOfCivils}
               onChange={(e) => {
-                setNumberOfCivils(e.currentTarget.value);
+                setNumberOfCivils(e.target.value);
               }}
               onFocus={(e) => touchControl("numberOfCivils")}
             />
           </FormItem>
           <FormItem
             top="Количество мафии"
-            status={
-              numberOfMafia
-                ? "valid"
-                : controlsTouchedStatus.numberOfMafia
-                ? "error"
-                : "default"
-            }
-            bottom={
-              !numberOfMafia && controlsTouchedStatus.numberOfMafia
-                ? "Это поле обязательное"
-                : ""
-            }
+            status={numberOfMafiaValidStatus}
+            bottom={numberOfMafiaErrorMessage}
           >
             <Input
               type="number"
@@ -159,7 +185,11 @@ export default function MainCreateGamePage({
               type="submit"
               stretched
               size="l"
-              disabled={!hostName || !numberOfCivils || !numberOfMafia}
+              disabled={
+                !hostName ||
+                numberOfCivilsValidStatus === "error" ||
+                numberOfMafiaValidStatus === "error"
+              }
               onClick={onCreateGame}
             >
               Создать
