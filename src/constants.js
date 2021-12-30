@@ -1,4 +1,4 @@
-export const BaseUrl = "http://localhost:3000/api";
+export const BaseUrl = "https://mafia2cards.herokuapp.com/api";
 
 export const GameStatus = {
   Created: 0,
