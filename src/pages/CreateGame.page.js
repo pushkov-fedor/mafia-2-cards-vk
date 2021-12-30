@@ -44,12 +44,16 @@ export default function MainCreateGamePage({
       hasPolice
     )
       .then((response) => {
+        console.log(response);
         setGame(response.data.game);
         setPlayerId(response.data.playerId);
         subscribeToGame(response.data.game.id);
         setActivePanel(mainPanels.waitGame);
       })
-      .catch((e) => setSnackbarError(e));
+      .catch((e) => {
+        const errorMessage = e.response.data.message;
+        setSnackbarError(errorMessage);
+      });
   };
 
   return (

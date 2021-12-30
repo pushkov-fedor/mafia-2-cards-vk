@@ -32,9 +32,10 @@ export default function CivilsPage({
   // methods
   const onCivilsKill = () => {
     setHasVoted(true);
-    GameApi.civilsKill(game.id, playerId, selectedPlayerId).catch((e) =>
-      setSnackbarError(e)
-    );
+    GameApi.civilsKill(game.id, playerId, selectedPlayerId).catch((e) => {
+      const errorMessage = e.response.data.message;
+      setSnackbarError(errorMessage);
+    });
   };
   // effects
   useEffect(() => {

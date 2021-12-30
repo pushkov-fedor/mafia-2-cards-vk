@@ -53,7 +53,10 @@ export default function PolicePage({
   };
   const onEndNight = () => {
     setActiveModal(null);
-    GameApi.endNight(game.id).catch((e) => setSnackbarError(e));
+    GameApi.endNight(game.id).catch((e) => {
+      const errorMessage = e.response.data.message;
+      setSnackbarError(errorMessage);
+    });
   };
   // modal
   const modal = (

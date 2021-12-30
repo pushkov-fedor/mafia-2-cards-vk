@@ -34,9 +34,10 @@ export default function MafiaPage({
   // methods
   const onKill = () => {
     setHasVoted(true);
-    GameApi.mafiaKill(game.id, player.name, selectedPlayerId).catch((e) =>
-      setSnackbarError(e)
-    );
+    GameApi.mafiaKill(game.id, player.name, selectedPlayerId).catch((e) => {
+      const errorMessage = e.response.data.message;
+      setSnackbarError(errorMessage);
+    });
   };
   // effects
   useEffect(() => {

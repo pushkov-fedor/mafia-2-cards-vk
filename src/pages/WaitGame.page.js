@@ -32,7 +32,10 @@ export default function MainWaitGamePage({
       .then((response) => {
         setActivePanel(mainPanels.game);
       })
-      .catch((e) => setSnackbarError(e));
+      .catch((e) => {
+        const errorMessage = e.response.data.message;
+        setSnackbarError(errorMessage);
+      });
   };
   return (
     <>

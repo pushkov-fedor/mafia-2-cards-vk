@@ -44,11 +44,17 @@ export default function MainGamePage({
   // methods
   const onStartNight = () => {
     setHasVoted(true);
-    GameApi.startNight(game.id, player.name).catch((e) => setSnackbarError(e));
+    GameApi.startNight(game.id, player.name).catch((e) => {
+      const errorMessage = e.response.data.message;
+      setSnackbarError(errorMessage);
+    });
   };
   const onStartTrial = () => {
     setHasVoted(true);
-    GameApi.startTrial(game.id, playerId).catch((e) => setSnackbarError(e));
+    GameApi.startTrial(game.id, playerId).catch((e) => {
+      const errorMessage = e.response.data.message;
+      setSnackbarError(errorMessage);
+    });
   };
   const onFinishedGame = () => {
     setActiveModal(null);
