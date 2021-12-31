@@ -2,6 +2,7 @@ import axios from "axios";
 import { BaseUrl } from "./constants";
 
 export const GameApi = {
+  wakeup: () => axios.get(`${BaseUrl}/game2/wakeup`),
   createGame: (
     creatorName,
     playerPhotoUrl,

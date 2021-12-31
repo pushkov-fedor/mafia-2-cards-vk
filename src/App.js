@@ -102,6 +102,7 @@ const App = () => {
     }
   }, [gameAudioPhase]);
   useEffect(() => {
+    GameApi.wakeup();
     bridge.send("VKWebAppGetUserInfo").then((res) => {
       setPlayerPhotoUrl(res.photo_200);
     });
