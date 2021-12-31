@@ -8,6 +8,9 @@ import {
   Input,
   PanelHeader,
   PanelHeaderBack,
+  ScreenSpinner,
+  SplitCol,
+  SplitLayout,
 } from "@vkontakte/vkui";
 import { mainPanels } from "../routes";
 import { GameApi } from "../api";
@@ -31,6 +34,7 @@ export default function MainCreateGamePage({
     numberOfMafia: false,
   });
   const [snackbarError, setSnackbarError] = useState(null);
+  const [spinner, setSpinner] = useState(null);
   const [numberOfMafiaValidStatus, setNumberOfMafiaValidStatus] =
     useState("valid");
   const [numberOfMafiaErrorMessage, setNumberOfMafiaErrorMessage] =
@@ -44,6 +48,7 @@ export default function MainCreateGamePage({
     setControlsTouchedStatus({ ...controlsTouchedStatus, [controlName]: true });
   };
   const onCreateGame = () => {
+    setSpinner(<ScreenSpinner />);
     GameApi.createGame(
       hostName,
       playerPhotoUrl,
@@ -60,6 +65,9 @@ export default function MainCreateGamePage({
       .catch((e) => {
         const errorMessage = e.response.data.message;
         setSnackbarError(errorMessage);
+      })
+      .finally(() => {
+        setSpinner(null);
       });
   };
   // effects
@@ -111,98 +119,102 @@ export default function MainCreateGamePage({
       >
         {panelHeaderMessage}
       </PanelHeader>
-      <Group>
-        <FormLayout
-          onSubmit={(e) => {
-            e.preventDefault();
-          }}
-        >
-          <FormItem
-            top="Имя"
-            status={
-              hostName
-                ? "valid"
-                : controlsTouchedStatus.name
-                ? "error"
-                : "default"
-            }
-            bottom={
-              !hostName && controlsTouchedStatus.name
-                ? "Это поле обязательное"
-                : ""
-            }
-          >
-            <Input
-              type="text"
-              name="name"
-              value={hostName}
-              onChange={(e) => {
-                setHostName(e.currentTarget.value);
+      <SplitLayout popout={spinner}>
+        <SplitCol>
+          <Group>
+            <FormLayout
+              onSubmit={(e) => {
+                e.preventDefault();
               }}
-              onFocus={(e) => touchControl("name")}
-              placeholder="Мое имя"
-            />
-          </FormItem>
-          <FormItem
-            top="Количество мирных жителей"
-            status={numberOfCivilsValidStatus}
-            bottom={numberOfCivilsErrorMessage}
-          >
-            <Input
-              type="number"
-              name="numberOfCivils"
-              value={numberOfCivils}
-              onChange={(e) => {
-                setNumberOfCivils(e.target.value);
-              }}
-              onFocus={(e) => touchControl("numberOfCivils")}
-            />
-          </FormItem>
-          <FormItem
-            top="Количество мафии"
-            status={numberOfMafiaValidStatus}
-            bottom={numberOfMafiaErrorMessage}
-          >
-            <Input
-              type="number"
-              name="numberOfMafia"
-              value={numberOfMafia}
-              onChange={(e) => {
-                setNumberOfMafia(e.currentTarget.value);
-              }}
-              onFocus={(e) => touchControl("numberOfMafia")}
-            />
-          </FormItem>
-          <Checkbox
-            value={hasPolice}
-            onChange={(e) => setHasPolice(e.currentTarget.checked)}
-          >
-            Добавить комиссара
-          </Checkbox>
-          <FormItem>
-            <Button
-              mode="commerce"
-              type="submit"
-              stretched
-              size="l"
-              disabled={
-                !hostName ||
-                numberOfCivilsValidStatus === "error" ||
-                numberOfMafiaValidStatus === "error"
-              }
-              onClick={onCreateGame}
             >
-              Создать
-            </Button>
-          </FormItem>
-        </FormLayout>
-      </Group>
-      {snackbarError && (
-        <ErrorSnackbar
-          errorMessage={snackbarError}
-          closeSnackbar={() => setSnackbarError(null)}
-        />
-      )}
+              <FormItem
+                top="Имя"
+                status={
+                  hostName
+                    ? "valid"
+                    : controlsTouchedStatus.name
+                    ? "error"
+                    : "default"
+                }
+                bottom={
+                  !hostName && controlsTouchedStatus.name
+                    ? "Это поле обязательное"
+                    : ""
+                }
+              >
+                <Input
+                  type="text"
+                  name="name"
+                  value={hostName}
+                  onChange={(e) => {
+                    setHostName(e.currentTarget.value);
+                  }}
+                  onFocus={(e) => touchControl("name")}
+                  placeholder="Мое имя"
+                />
+              </FormItem>
+              <FormItem
+                top="Количество мирных жителей"
+                status={numberOfCivilsValidStatus}
+                bottom={numberOfCivilsErrorMessage}
+              >
+                <Input
+                  type="number"
+                  name="numberOfCivils"
+                  value={numberOfCivils}
+                  onChange={(e) => {
+                    setNumberOfCivils(e.target.value);
+                  }}
+                  onFocus={(e) => touchControl("numberOfCivils")}
+                />
+              </FormItem>
+              <FormItem
+                top="Количество мафии"
+                status={numberOfMafiaValidStatus}
+                bottom={numberOfMafiaErrorMessage}
+              >
+                <Input
+                  type="number"
+                  name="numberOfMafia"
+                  value={numberOfMafia}
+                  onChange={(e) => {
+                    setNumberOfMafia(e.currentTarget.value);
+                  }}
+                  onFocus={(e) => touchControl("numberOfMafia")}
+                />
+              </FormItem>
+              <Checkbox
+                value={hasPolice}
+                onChange={(e) => setHasPolice(e.currentTarget.checked)}
+              >
+                Добавить комиссара
+              </Checkbox>
+              <FormItem>
+                <Button
+                  mode="commerce"
+                  type="submit"
+                  stretched
+                  size="l"
+                  disabled={
+                    !hostName ||
+                    numberOfCivilsValidStatus === "error" ||
+                    numberOfMafiaValidStatus === "error"
+                  }
+                  onClick={onCreateGame}
+                >
+                  Создать
+                </Button>
+              </FormItem>
+            </FormLayout>
+          </Group>
+          {snackbarError && (
+            <ErrorSnackbar
+              errorMessage={snackbarError}
+              closeSnackbar={() => setSnackbarError(null)}
+            />
+          )}
+        </SplitCol>
+      </SplitLayout>
     </>
   );
 }
