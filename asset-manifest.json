@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/mafia-2-cards-vk/static/css/main.472e3205.chunk.css",
-    "main.js": "/mafia-2-cards-vk/static/js/main.5b88ce09.chunk.js",
-    "main.js.map": "/mafia-2-cards-vk/static/js/main.5b88ce09.chunk.js.map",
+    "main.css": "/mafia-2-cards-vk/static/css/main.34cfcffc.chunk.css",
+    "main.js": "/mafia-2-cards-vk/static/js/main.ae685a6b.chunk.js",
+    "main.js.map": "/mafia-2-cards-vk/static/js/main.ae685a6b.chunk.js.map",
     "runtime-main.js": "/mafia-2-cards-vk/static/js/runtime-main.a5317209.js",
     "runtime-main.js.map": "/mafia-2-cards-vk/static/js/runtime-main.a5317209.js.map",
     "static/css/2.a0f58343.chunk.css": "/mafia-2-cards-vk/static/css/2.a0f58343.chunk.css",
-    "static/js/2.3b1bc3fc.chunk.js": "/mafia-2-cards-vk/static/js/2.3b1bc3fc.chunk.js",
-    "static/js/2.3b1bc3fc.chunk.js.map": "/mafia-2-cards-vk/static/js/2.3b1bc3fc.chunk.js.map",
+    "static/js/2.0c158e7b.chunk.js": "/mafia-2-cards-vk/static/js/2.0c158e7b.chunk.js",
+    "static/js/2.0c158e7b.chunk.js.map": "/mafia-2-cards-vk/static/js/2.0c158e7b.chunk.js.map",
     "index.html": "/mafia-2-cards-vk/index.html",
     "static/css/2.a0f58343.chunk.css.map": "/mafia-2-cards-vk/static/css/2.a0f58343.chunk.css.map",
-    "static/css/main.472e3205.chunk.css.map": "/mafia-2-cards-vk/static/css/main.472e3205.chunk.css.map",
-    "static/js/2.3b1bc3fc.chunk.js.LICENSE.txt": "/mafia-2-cards-vk/static/js/2.3b1bc3fc.chunk.js.LICENSE.txt",
+    "static/css/main.34cfcffc.chunk.css.map": "/mafia-2-cards-vk/static/css/main.34cfcffc.chunk.css.map",
+    "static/js/2.0c158e7b.chunk.js.LICENSE.txt": "/mafia-2-cards-vk/static/js/2.0c158e7b.chunk.js.LICENSE.txt",
     "static/media/mafiaSleep.150eb60b.mp3": "/mafia-2-cards-vk/static/media/mafiaSleep.150eb60b.mp3",
     "static/media/mafiaWakeUp.3e03da91.mp3": "/mafia-2-cards-vk/static/media/mafiaWakeUp.3e03da91.mp3",
     "static/media/playersSleep.c4c1ee3c.mp3": "/mafia-2-cards-vk/static/media/playersSleep.c4c1ee3c.mp3",
@@ -22,8 +22,8 @@
   "entrypoints": [
     "static/js/runtime-main.a5317209.js",
     "static/css/2.a0f58343.chunk.css",
-    "static/js/2.3b1bc3fc.chunk.js",
-    "static/css/main.472e3205.chunk.css",
-    "static/js/main.5b88ce09.chunk.js"
+    "static/js/2.0c158e7b.chunk.js",
+    "static/css/main.34cfcffc.chunk.css",
+    "static/js/main.ae685a6b.chunk.js"
   ]
 }
