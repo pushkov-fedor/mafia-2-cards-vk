@@ -44,12 +44,12 @@ const App = () => {
     }, 2000);
     setIntervalId(intervalId);
   };
-  const submitHasSeenIntro = () => {
+  const submitHasSeenIntro = () =>
     bridge.send("VKWebAppStorageSet", {
       key: "hasSeenIntro",
       value: "1",
     });
-  };
+
   // effects
   useEffect(() => {
     if (isGameFinished(game)) {
