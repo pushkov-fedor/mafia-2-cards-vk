@@ -32,7 +32,7 @@ const App = () => {
   const [gameAudioPhase, setGameAudioPhase] = useState(null);
   // ui state
   const [activeView, setActiveView] = useState("main");
-  const [activePanel, setActivePanel] = useState(mainPanels.intro);
+  const [activePanel, setActivePanel] = useState(mainPanels.home);
   const [intervalId, setIntervalId] = useState(null);
   // methods
   const subscribeToGame = (gameId) => {
@@ -43,6 +43,12 @@ const App = () => {
       });
     }, 2000);
     setIntervalId(intervalId);
+  };
+  const submitHasSeenIntro = () => {
+    bridge.send("VKWebAppStorageSet", {
+      key: "hasSeenIntro",
+      value: "1",
+    });
   };
   // effects
   useEffect(() => {
@@ -99,6 +105,14 @@ const App = () => {
     bridge.send("VKWebAppGetUserInfo").then((res) => {
       setPlayerPhotoUrl(res.photo_200);
     });
+    bridge
+      .send("VKWebAppStorageGet", { keys: ["hasSeenIntro"] })
+      .then(({ keys }) => {
+        const hasSeenIntro = keys[0].value;
+        if (!hasSeenIntro) {
+          setActivePanel(mainPanels.intro);
+        }
+      });
   }, []);
   useEffect(() => {
     if (activePanel === mainPanels.home && intervalId) {
@@ -111,10 +125,11 @@ const App = () => {
     <AppRoot>
       <Root activeView={activeView}>
         <View activePanel={activePanel} id="main">
-          <Panel centeredx id={mainPanels.intro}>
+          <Panel centered id={mainPanels.intro}>
             <IntroPage
               setActivePanel={setActivePanel}
               panelHeaderMessage="Добро пожаловать!"
+              submitHasSeenIntro={submitHasSeenIntro}
             />
           </Panel>
           <Panel centered id={mainPanels.home} className="home-panel">

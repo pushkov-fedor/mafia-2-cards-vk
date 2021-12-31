@@ -1,12 +1,17 @@
 import React from "react";
 import { Button, Div, Group, PanelHeader, Title } from "@vkontakte/vkui";
 import "./Intro.page.css";
+import { mainPanels } from "../routes";
 
 export default function IntroPage({
   setActivePanel,
   panelHeaderMessage,
-  hasSeenIntro,
+  submitHasSeenIntro,
 }) {
+  const onOk = () => {
+    setActivePanel(mainPanels.home);
+    submitHasSeenIntro();
+  };
   return (
     <>
       <PanelHeader>{panelHeaderMessage}</PanelHeader>
@@ -25,7 +30,7 @@ export default function IntroPage({
           </Title>
         </Div>
         <Div>
-          <Button stretched size="l" mode="commerce">
+          <Button stretched size="l" mode="commerce" onClick={onOk}>
             ОК
           </Button>
         </Div>
