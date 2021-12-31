@@ -6,6 +6,9 @@ import {
   Input,
   PanelHeader,
   PanelHeaderBack,
+  ScreenSpinner,
+  SplitCol,
+  SplitLayout,
 } from "@vkontakte/vkui";
 import React, { useState } from "react";
 import { GameApi } from "../api";
@@ -29,14 +32,15 @@ export default function MainJoinGamePage({
     name: false,
   });
   const [snackbarError, setSnackbarError] = useState(null);
+  const [spinner, setSpinner] = useState(null);
   // public methods
   const touchControl = (controlName) => {
     setControlsTouchedStatus({ ...controlsTouchedStatus, [controlName]: true });
   };
   const onJoin = () => {
+    setSpinner(<ScreenSpinner />);
     GameApi.joinGame(nameControlValue, playerPhotoUrl, roomCodeControlValue)
       .then((response) => {
-        console.log(response);
         setGame(response.data.game);
         setPlayerId(response.data.playerId);
         subscribeToGame(response.data.game.id);
@@ -49,6 +53,9 @@ export default function MainJoinGamePage({
       .catch((e) => {
         const errorMessage = e.response.data.message;
         setSnackbarError(errorMessage);
+      })
+      .finally(() => {
+        setSpinner(null);
       });
   };
   return (
@@ -60,84 +67,90 @@ export default function MainJoinGamePage({
       >
         {panelHeaderMessage}
       </PanelHeader>
-      <Group>
-        <FormLayout
-          onSubmit={(e) => {
-            e.preventDefault();
-          }}
-        >
-          <FormItem
-            top="Код комнаты"
-            status={
-              roomCodeControlValue
-                ? "valid"
-                : controlsTouchedStatus.roomCode
-                ? "error"
-                : "default"
-            }
-            bottom={
-              !roomCodeControlValue && controlsTouchedStatus.roomCode
-                ? "Это поле обязательное"
-                : ""
-            }
-          >
-            <Input
-              type="text"
-              name="roomCode"
-              value={roomCodeControlValue}
-              onChange={(e) => {
-                setRoomCodeControlValue(e.currentTarget.value.toUpperCase());
+      <SplitLayout popout={spinner}>
+        <SplitCol>
+          <Group>
+            <FormLayout
+              onSubmit={(e) => {
+                e.preventDefault();
               }}
-              onFocus={(e) => touchControl("roomCode")}
-              placeholder="MF12P5"
-            />
-          </FormItem>
-          <FormItem
-            top="Имя"
-            status={
-              nameControlValue
-                ? "valid"
-                : controlsTouchedStatus.name
-                ? "error"
-                : "default"
-            }
-            bottom={
-              !nameControlValue && controlsTouchedStatus.name
-                ? "Это поле обязательное"
-                : ""
-            }
-          >
-            <Input
-              type="text"
-              name="name"
-              value={nameControlValue}
-              onChange={(e) => {
-                setNameControlValue(e.currentTarget.value);
-              }}
-              onFocus={(e) => touchControl("name")}
-              placeholder="Твое имя"
-            />
-          </FormItem>
-          <FormItem>
-            <Button
-              mode="commerce"
-              type="submit"
-              stretched
-              size="l"
-              disabled={!roomCodeControlValue || !nameControlValue}
-              onClick={onJoin}
             >
-              Присоединиться
-            </Button>
-          </FormItem>
-        </FormLayout>
-      </Group>
-      {snackbarError && (
-        <ErrorSnackbar
-          errorMessage={snackbarError}
-          closeSnackbar={() => setSnackbarError(null)}
-        />
-      )}
+              <FormItem
+                top="Код комнаты"
+                status={
+                  roomCodeControlValue
+                    ? "valid"
+                    : controlsTouchedStatus.roomCode
+                    ? "error"
+                    : "default"
+                }
+                bottom={
+                  !roomCodeControlValue && controlsTouchedStatus.roomCode
+                    ? "Это поле обязательное"
+                    : ""
+                }
+              >
+                <Input
+                  type="text"
+                  name="roomCode"
+                  value={roomCodeControlValue}
+                  onChange={(e) => {
+                    setRoomCodeControlValue(
+                      e.currentTarget.value.toUpperCase()
+                    );
+                  }}
+                  onFocus={(e) => touchControl("roomCode")}
+                  placeholder="MF12P5"
+                />
+              </FormItem>
+              <FormItem
+                top="Имя"
+                status={
+                  nameControlValue
+                    ? "valid"
+                    : controlsTouchedStatus.name
+                    ? "error"
+                    : "default"
+                }
+                bottom={
+                  !nameControlValue && controlsTouchedStatus.name
+                    ? "Это поле обязательное"
+                    : ""
+                }
+              >
+                <Input
+                  type="text"
+                  name="name"
+                  value={nameControlValue}
+                  onChange={(e) => {
+                    setNameControlValue(e.currentTarget.value);
+                  }}
+                  onFocus={(e) => touchControl("name")}
+                  placeholder="Твое имя"
+                />
+              </FormItem>
+              <FormItem>
+                <Button
+                  mode="commerce"
+                  type="submit"
+                  stretched
+                  size="l"
+                  disabled={!roomCodeControlValue || !nameControlValue}
+                  onClick={onJoin}
+                >
+                  Присоединиться
+                </Button>
+              </FormItem>
+            </FormLayout>
+          </Group>
+          {snackbarError && (
+            <ErrorSnackbar
+              errorMessage={snackbarError}
+              closeSnackbar={() => setSnackbarError(null)}
+            />
+          )}
+        </SplitCol>
+      </SplitLayout>
     </>
   );
 }
