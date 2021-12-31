@@ -32,7 +32,7 @@ const App = () => {
   const [gameAudioPhase, setGameAudioPhase] = useState(null);
   // ui state
   const [activeView, setActiveView] = useState("main");
-  const [activePanel, setActivePanel] = useState(mainPanels.home);
+  const [activePanel, setActivePanel] = useState(mainPanels.intro);
   const [intervalId, setIntervalId] = useState(null);
   // methods
   const subscribeToGame = (gameId) => {
@@ -111,7 +111,7 @@ const App = () => {
     <AppRoot>
       <Root activeView={activeView}>
         <View activePanel={activePanel} id="main">
-          <Panel id={mainPanels.intro}>
+          <Panel centeredx id={mainPanels.intro}>
             <IntroPage
               setActivePanel={setActivePanel}
               panelHeaderMessage="Добро пожаловать!"
