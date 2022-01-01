@@ -7,8 +7,7 @@ import {
   PanelHeader,
   Title,
 } from "@vkontakte/vkui";
-import React, { useState } from "react";
-import { useEffect } from "react/cjs/react.development";
+import React, { useState, useEffect } from "react";
 import { GameApi } from "../api";
 import ErrorSnackbar from "../components/ErrorSnackbar";
 import getOtherPlayersAlive from "../utils/getOtherPlayersAlive";

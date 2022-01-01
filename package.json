@@ -1,6 +1,6 @@
 {
   "name": "mafia_vk_mini_app",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
   "main": "index.js",
   "homepage": "http://pushkov-fedor.github.io/mafia-2-cards-vk",
@@ -42,8 +42,8 @@
     "eruda-dom": "^2.0.0",
     "howler": "^2.2.3",
     "prop-types": "^15.7.2",
-    "react": "next",
-    "react-dom": "next"
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   },
   "browserslist": {
     "production": [
